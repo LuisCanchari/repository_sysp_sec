@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados</title>
+    <link rel="stylesheet" th:href="@{/css/principal.css}">
+</head>
+
+<body>
+    <h3>Resultado</h3>
+
+    <p th:text="'Resultado: ' + ${msg}">No se tienen resultados</p>
+    <p th:text="'El usuario que intento conectarse es: '+ ${username}">No se tienen resultados</p>
+
+</body>
+
+</html>

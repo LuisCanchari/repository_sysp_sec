@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.cientifica.papeleta.mappers.PersonaMapper">
+	<resultMap type="edu.cientifica.papeleta.model.Persona" id="personaResultMap">
+		<id column="id_persona" property="idPersona" />
+		<result column="num_doc" property="numeroDocumento" />
+		<result column="nombre" property="nombres" />
+		<result column="apellido_1" property="primerApellido" />
+		<result column="apellido_2" property="segundoApellido" />
+		<result column="fecha_nacimiento" property="fechaNacimiento" />
+		<result column="id_genero" property="genero" />
+	</resultMap>
+	<select id="listarPersonas" resultMap="personaResultMap">
+		Select
+		  p.id_persona,
+		  p.num_doc,
+		  p.nombre,
+		  p.apellido_1,
+		  p.apellido_2,
+		  p.fecha_nacimiento,
+		  p.id_genero
+		From persona p
+	</select>
+	
+	<sql id="camposPersona">
+	   p.id_persona,
+     p.num_doc,
+     p.nombre,
+     p.apellido_1,
+     p.apellido_2,
+     p.fecha_nacimiento,
+     p.id_genero
+	</sql>
+</mapper>

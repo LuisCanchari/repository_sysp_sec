@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.cientifica.papeleta.mappers.PapeletaMapper">
+	<resultMap id="papeletaResultMap" type="edu.cientifica.papeleta.model.Papeleta">
+		<id property="idPapeleta" column="id_papeleta" />
+		<result property="fechaInicio" column="fecha_inicio" />
+		<result property="fechaFin" column="fecha_fin" />
+		<result property="horaInicio" column="hora_inicio" />
+		<result property="horaFin" column="hora_fin" />
+		<result property="observacion" column="des_observacion" />
+		<association property="empleado" column="id_empleado"
+			resultMap="edu.cientifica.papeleta.mappers.EmpleadoMapper.empleadoResultMap"
+			javaType="edu.cientifica.papeleta.model.Empleado" />
+		<association property="motivo" column="id_motivo" javaType="edu.cientifica.papeleta.model.Motivo"
+			resultMap="edu.cientifica.papeleta.mappers.MotivoMapper.motivoResultMap" />
+	</resultMap>
+
+	<select id="nuevoIdPapeleta" resultType="int">
+		SELECT IFNULL(max(id_papeleta), 0)+1 as nuevoId from papeleta
+	</select>
+	<sql id="camposPapeleta">
+		papeleta.id_papeleta,
+		papeleta.id_empleado,
+		papeleta.num_ano,
+		papeleta.num_papeleta,
+		papeleta.fecha_inicio,
+		papeleta.fecha_fin,
+		papeleta.hora_inicio,
+		papeleta.hora_fin,
+		papeleta.id_motivo,
+		papeleta.des_observacion
+	</sql>
+
+	<select id="listaPapeleta" resultMap="papeletaResultMap">
+		Select
+		<include refid="edu.cientifica.papeleta.mappers.PapeletaMapper.camposPapeleta" />,
+		<include refid="edu.cientifica.papeleta.mappers.EmpleadoMapper.camposEmpleado" />,
+		<include refid="edu.cientifica.papeleta.mappers.PersonaMapper.camposPersona" />,
+		<include refid="edu.cientifica.papeleta.mappers.AreaMapper.camposArea" />,
+		<include refid="edu.cientifica.papeleta.mappers.MotivoMapper.camposMotivo"/>
+		From papeleta papeleta
+		Inner Join empleado e
+		On papeleta.id_empleado = e.id_empleado
+		Inner Join persona p
+		On e.id_empleado = p.id_persona
+		Inner Join area a
+		On e.id_area = a.id_area
+		Inner Join motivo motivo
+		On papeleta.id_motivo=motivo.id_motivo
+		Order by papeleta.id_papeleta asc
+	</select>
+	<select id="papeletaById" resultMap="papeletaResultMap">
+	   Select
+    <include refid="edu.cientifica.papeleta.mappers.PapeletaMapper.camposPapeleta" />,
+    <include refid="edu.cientifica.papeleta.mappers.PersonaMapper.camposPersona" />,
+    <include refid="edu.cientifica.papeleta.mappers.EmpleadoMapper.camposEmpleado" />,
+    <include refid="edu.cientifica.papeleta.mappers.AreaMapper.camposArea" />
+    From papeleta papeleta
+    Inner Join empleado e
+    On papeleta.id_empleado = e.id_empleado
+    Inner Join persona p
+    On e.id_empleado = p.id_persona
+    Inner Join area a
+    On e.id_area = a.id_area
+    Inner Join motivo motivo
+    On papeleta.id_motivo=motivo.id_motivo
+    Where
+    papeleta.id_papeleta = #{id}
+	</select>
+	<insert id="insertarPapeleta" parameterType="edu.cientifica.papeleta.model.Papeleta">
+		INSERT INTO papeleta
+		(
+		id_papeleta,
+		id_empleado,
+		num_ano,
+		num_papeleta,
+		fecha_inicio,
+		fecha_fin,
+		hora_inicio,
+		hora_fin,
+		id_motivo,
+		des_observacion)
+		VALUES
+		(
+		#{idPapeleta},
+		#{empleado.idPersona},
+		year(CURDATE()),
+		#{idPapeleta},
+		#{fechaInicio},
+		#{fechaFin},
+		#{horaInicio},
+		#{horaFin},
+		#{motivo.idMotivo},
+		#{observacion}
+		)
+	</insert>
+	<update id="actualizarPapeleta" parameterType="edu.cientifica.papeleta.model.Papeleta">
+	 UPDATE papeleta papeleta
+   SET
+   papeleta.fecha_inicio = #{fechaInicio},
+   papeleta.fecha_fin = #{fechaFin},
+   papeleta.hora_inicio = #{horaInicio},
+   papeleta.hora_fin = #{horaFin},
+   papeleta.id_motivo = #{motivo.idMotivo},
+   papeleta.des_observacion = #{observacion}
+   WHERE papeleta.id_papeleta=#{idPapeleta};
+	</update>
+
+</mapper>

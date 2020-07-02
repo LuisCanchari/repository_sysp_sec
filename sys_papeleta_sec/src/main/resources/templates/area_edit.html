@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="/layout :: header"></div>
+    <title>Principal</title>
+</head>
+
+<body>
+  <div id="contenedor">
+    <div id="cabecera" th:include ="/layout :: cabecera">
+    </div>
+    
+    <div id="filainfo" th:include ="/layout :: filainfo">
+    </div>
+    
+    <div class="fila">
+      <div class="menu" th:include ="/layout :: menu">
+      </div>
+      
+      <div class="main">
+				<form th:action="@{/area/actualizar}" action="/area/actualizar" method="POST" th:object="${area}" class="form">
+					<div class="container">
+						<div class="row">
+							<div class="col-3">
+								<label for="txtId">Id: </label>
+							</div>
+							<div class="col-7">
+								<input type="number" id="txtId" name="idArea" th:field="*{idArea}" class="form-control" th:readonly="true">
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-3">
+								<label for="txtNombreCorto">Nombre Corto: </label>
+							</div>
+							<div class="col-7">
+								<input type="text" id="txtNombreCorto" name="nombreCorto" th:field="*{nombreCorto}" class="form-control">
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-3">
+								<label for="txtNombreLargo">Nombre Largo: </label>
+							</div>
+
+							<div class="col-7">
+								<input type="text" id="txtNombreLargo" name="nombreLargo" th:field="*{nombreLargo}"class="form-control">
+							</div>
+						</div>
+						
+						<div class="row">
+              <div class="col-3">
+                <label for="areaSuperior">Area Superior: </label>
+              </div>
+
+              <div class="col-7">
+              <select id="areaSuperior" name="areaSuperior" class="form-control" th:field="*{areaSuperior.idArea}">
+                <option th:each="area : ${listadoAreas}" th:value="${area.idArea}" th:text="${area.nombreLargo}" 
+                th:selected="(${area.idArea}==*{areaSuperior.idArea})"></option>
+              </select>
+              </div>
+            </div>
+
+						<div class="row">
+							<div class="col-3">
+								<input type="submit" value="Guardar" class="btn btn-success btn-block">
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div id="pie">© copyright Universidad Cientifica del Sur</div>
+	</div>
+</html>

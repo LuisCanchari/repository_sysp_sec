@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.cientifica.papeleta.mappers.MotivoMapper">
+<resultMap id="motivoResultMap" type="edu.cientifica.papeleta.model.Motivo" >
+  <id property="idMotivo" column="id_motivo"/>
+  <result property="descripcion" column="nombre_motivo"/>
+  <result property="tipoMotivo" column="id_grupo"/>
+</resultMap>
+<sql id="camposMotivo">
+  motivo.id_motivo,
+  motivo.nombre_motivo,
+  motivo.id_grupo
+</sql>
+<select id="motivoById" resultMap="motivoResultMap">
+  Select
+  <include refid="camposMotivo"/>
+  From motivo motivo
+  where motivo.id_motivo = #{id} 
+</select>
+
+<select id="listarMotivos" resultMap="motivoResultMap">
+select 
+id_motivo,
+nombre_motivo,
+id_grupo
+from motivo
+</select>
+
+
+
+</mapper>

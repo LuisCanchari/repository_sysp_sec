@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="edu.cientifica.papeleta.mappers.AreaMapper">
+	<resultMap id="areaResultMap" type="edu.cientifica.papeleta.model.Area">
+		<id column="id_area" property="idArea" />
+		<result column="nombre_corto" property="nombreCorto" />
+		<result column="nombre_largo" property="nombreLargo" />
+		<association column="area_superior" property="areaSuperior" 
+		javaType="edu.cientifica.papeleta.model.Area"
+		resultMap="edu.cientifica.papeleta.mappers.AreaMapper.areaResultMap"
+		columnPrefix="su_"/>
+	</resultMap>
+	<select id="listaArea" resultMap="areaResultMap">
+		Select 
+		 a.id_area as id_area,
+     a.nombre_corto as nombre_corto,
+     a.nombre_largo as nombre_largo,
+     a.area_superior as area_superior,
+     b.id_area as su_id_area,
+     b.nombre_corto su_nombre_corto,
+     b.nombre_largo su_nombre_largo,
+     b.area_superior su_area_superior
+		From area a
+		Left Join area b
+		On a.area_superior=b.id_area
+	</select>
+	<select id="areaById" resultMap="areaResultMap">
+	 Select 
+     a.id_area as id_area,
+     a.nombre_corto as nombre_corto,
+     a.nombre_largo as nombre_largo,
+     a.area_superior as area_superior,
+     b.id_area as su_id_area,
+     b.nombre_corto su_nombre_corto,
+     b.nombre_largo su_nombre_largo,
+     b.area_superior su_area_superior
+    From area a
+    Left Join area b
+    On a.area_superior=b.id_area
+    where a.id_area=#{id}
+	</select>
+	<select id="nuevoIdArea" resultType="int">
+	 select IFNULL(max(id_area), 0)+1  nuevoIdArea from area
+	</select>
+	<insert id="insertarArea" parameterType="edu.cientifica.papeleta.model.Area">
+	 INSERT INTO AREA (id_area, nombre_corto, nombre_largo, area_superior) 
+	 VALUES (#{idArea},#{nombreCorto}, #{nombreLargo},#{areaSuperior.idArea})
+	</insert>
+	<update id="actualizarArea" parameterType="edu.cientifica.papeleta.model.Area">
+	  UPDATE area
+    SET
+    nombre_corto = #{nombreCorto}, 
+    nombre_largo = #{nombreLargo},
+    area_superior = #{areaSuperior.idArea}
+    WHERE id_area = #{idArea}
+	</update>
+	
+	<sql id="camposArea">
+	   a.id_area,
+	   a.nombre_corto,
+	   a.nombre_largo
+	</sql>
+	
+</mapper>

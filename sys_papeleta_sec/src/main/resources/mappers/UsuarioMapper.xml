@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.cientifica.papeleta.mappers.UsuarioMapper">
+<resultMap  id="usuarioResultMap"
+  extends="edu.cientifica.papeleta.mappers.EmpleadoMapper.empleadoResultMap" 
+  type="edu.cientifica.papeleta.model.Usuario">
+<id property="idUsuario" column="id_usuario"/>
+<result property="username" column="login_name"/>
+<result property="password" column="password"/>
+<collection property="roles" ofType="edu.cientifica.papeleta.model.Role" >
+  <id property="idRol" column="id_rol"/>
+  <result property="rolname" column="rol_name"/>
+</collection>
+</resultMap>
+
+<select id="listarUsuarios" resultMap="usuarioResultMap">
+  Select
+    <include refid="edu.cientifica.papeleta.mappers.PersonaMapper.camposPersona"/>,
+    <include refid="edu.cientifica.papeleta.mappers.EmpleadoMapper.camposEmpleado" />,
+    <include refid="edu.cientifica.papeleta.mappers.AreaMapper.camposArea"/>,
+    u.id_usuario,
+    u.login_name,
+    u.password,
+    r.id_rol,
+    r.rol_name
+  From empleado e
+    Inner Join persona p
+    On e.id_empleado = p.id_persona
+    Inner Join area a
+    On e.id_area = a.id_area
+    Inner Join usuario u 
+    On e.id_empleado = u.id_empleado
+    Left join usuario_roles ur
+    on u.id_usuario = ur.id_usuario
+    Left join rol r
+    on ur.id_rol = r.id_rol
+ 
+</select>
+
+<select id="findUsername" resultMap="usuarioResultMap">
+   Select
+     p.id_persona,
+     p.num_doc,
+     p.nombre,
+     p.apellido_1,
+     p.apellido_2,
+     p.fecha_nacimiento,
+     p.id_genero,
+     e.fecha_ingreso,
+     e.id_tipo_empleado,
+     e.id_area,
+     a.id_area,
+     a.nombre_corto,
+     a.nombre_largo,
+     u.id_usuario,
+     u.login_name,
+     u.password,
+     r.id_rol,
+     r.rol_name
+  From empleado e
+    Inner Join persona p
+    On e.id_empleado = p.id_persona
+    Inner Join area a
+    On e.id_area = a.id_area
+    Inner Join usuario u 
+    On e.id_empleado = u.id_empleado
+    Left join usuario_roles ur
+    on u.id_usuario = ur.id_usuario
+    Left join rol r
+    on ur.id_rol = r.id_rol
+  Where u.login_name = #{username}
+</select>
+
+</mapper>

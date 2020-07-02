@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="/layout :: header"></div>
+    <title>Principal</title>
+</head>
+
+<body>
+  <div id="contenedor">
+    <div id="cabecera" th:include ="/layout :: cabecera">
+    </div>
+    
+    <div id="filainfo" th:include ="/layout :: filainfo">
+    </div>
+    
+    <div class="fila">
+      <div class="menu" th:include ="/layout :: menu">
+      </div>
+      
+      <div class="main">
+				<a href="#" th:href="@{/area/form}" class="btn btn-success">
+					<i class="fa fa-plus" aria-hidden="true"></i> Nueva Area
+				</a>
+				<table class="table table-light">
+					<thead class="thead-light">
+						<tr>
+							<th>Id</th>
+							<th>Glosa</th>
+							<th>Nombre</th>
+							<th>Jefatura</th>
+							<th>Accion</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr th:if="${areas.empty}">
+							<td>No existen resultados</td>
+						</tr>
+						<tr th:each="area: ${areas}">
+							<td>
+								<span th:text="${area.idArea}">Codigo</span>
+							</td>
+							<td>
+								<span th:text="${area.nombreCorto}">Glosa</span>
+							</td>
+							<td>
+								<span th:text="${area.nombreLargo}">Nombre</span>
+								</a>
+							</td>
+							<td>
+								<span th:text="${area.areaSuperior}? ${area.areaSuperior.nombreLargo}:''">Oficina</span>
+								</a>
+							</td>
+							<td>
+							<span th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" >
+								<a href="#" th:href="@{'/area/editar/'+${area.idArea}}">
+									<i class="fa fa-pencil-square" aria-hidden="true"></i> Edit
+								</a>
+								</span>
+								
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+
+		<div id="pie" th:include ="/layout :: pie">
+	</div>
+</html>
+
+

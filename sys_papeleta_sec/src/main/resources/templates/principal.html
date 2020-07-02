@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="/layout :: header"></div>
+    <title>Principal</title>
+</head>
+
+<body>
+	<div id="contenedor">
+			<div id="cabecera" th:include ="/layout :: cabecera">
+		</div>
+		
+		<div id="filainfo" th:include ="/layout :: filainfo">
+		</div>
+		
+		<div class="fila">
+			<div class="menu" th:include ="/layout :: menu">
+			</div>
+			
+			<div class="main">
+			
+			</div>
+		</div>
+
+		<div id="pie" th:include ="/layout :: pie">
+		</div>
+	</div>
+</html>

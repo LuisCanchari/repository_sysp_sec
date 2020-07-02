@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+<meta charset="UTF-8">
+    <div th:replace="/layout :: header"></div>
+    <title>Papeleta</title>
+</head>
+
+
+
+<body>
+  <div id="contenedor">
+    <div id="cabecera" th:include ="/layout :: cabecera">
+    </div>
+    
+    <div id="filainfo" th:include ="/layout :: filainfo">
+    </div>
+    
+    <div class="fila">
+      <div class="menu" th:include ="/layout :: menu">
+      </div>
+      
+      <div class="main">
+				<!-- Inicio de Listado -->
+				<table class="table table-light">
+					<thead class="thead-light">
+						<tr>
+							<th>Id</th>
+							<th>Inicio</th>
+							<th>Fin</th>
+							<th>Empleado</th>
+							<th>Area</th>
+							<th>Motivo</th>
+							<th>Acciones</th>
+
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr th:if="${papeletas.empty}">
+							<td>No existen resultados</td>
+						</tr>
+						<tr th:each="papeleta: ${papeletas}">
+							<td>
+								<span th:text="${papeleta.idPapeleta}">Papeleta</span>
+							</td>
+							<td>
+								<span th:text="${papeleta.fechaInicio}+' '+${papeleta.horaInicio}">Inicio</span>
+							</td>
+							<td>
+								<span th:text="${papeleta.fechaFin}+' '+${papeleta.horaFin}">Fin</span>
+							</td>
+							<td>
+								<span th:text="${papeleta.empleado.nombres}+' '+${papeleta.empleado.primerApellido}">Empleado</span>
+							</td>
+							<td>
+								<span th:text="${papeleta.empleado.area.nombreCorto}">Area</span>
+							</td>
+							<td>
+								<span th:text="${papeleta.motivo.descripcion}">Motivo</span>
+							</td>
+							<td>
+								<a href="#" th:href="@{'/papeleta/editar/'+${papeleta.idPapeleta}}">
+									<i class="fa fa-pencil-square" aria-hidden="true"></i>Edit
+								</a>
+								<a href="#" th:href="@{'/papeleta/enviar/'+${papeleta.idPapeleta}}">
+									<i class="fa fa-check-square-o" aria-hidden="true"></i>Send
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<!-- Fin de Listado -->
+			</div>
+		</div>
+
+		<div id="pie" th:include ="/layout :: pie">
+    </div>
+	</div>
+</html>

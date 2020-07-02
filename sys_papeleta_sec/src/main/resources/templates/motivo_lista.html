@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="/layout :: header"></div>
+    <title>Principal</title>
+</head>
+
+<body>
+  <div id="contenedor">
+    <div id="cabecera" th:include ="/layout :: cabecera">
+    </div>
+    
+    <div id="filainfo" th:include ="/layout :: filainfo">
+    </div>
+    
+    <div class="fila">
+      <div class="menu" th:include ="/layout :: menu">
+      </div>
+      
+      <div class="main">
+				<a href="#" th:href="@{/motivo/form}" class="btn btn-success">
+					<i class="fa fa-plus" aria-hidden="true"></i> Nueva Motivo
+				</a>
+				<table class="table table-light">
+					<thead class="thead-light">
+						<tr>
+							<th>Id</th>
+							<th>Descripción</th>
+							<th>Acción</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr th:if="${motivos.empty}">
+							<td>No existen resultados</td>
+						</tr>
+						<tr th:each="motivo: ${motivos}">
+							<td>
+								<span th:text="${motivo.idMotivo}">Codigo</span>
+							</td>
+							<td>
+								<span th:text="${motivo.descripcion}">Descripcion</span>
+							</td>
+							<td>
+								<a href="#" th:href="@{'/motivo/editar/'+${motivo.idMotivo}}">
+									<i class="fa fa-pencil-square" aria-hidden="true"></i> Edit
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+
+		<div id="pie">© copyright Universidad Cientifica del Sur</div>
+	</div>
+</html>
+
+

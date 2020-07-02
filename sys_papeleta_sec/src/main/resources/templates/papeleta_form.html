@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="/layout :: header"></div>
+    <title>Principal</title>
+</head>
+
+<body>
+  <div id="contenedor">
+    <div id="cabecera" th:include ="/layout :: cabecera">
+    </div>
+    
+    <div id="filainfo" th:include ="/layout :: filainfo">
+    </div>
+    
+    <div class="fila">
+      <div class="menu" th:include ="/layout :: menu">
+      </div>
+      
+      <div class="main">
+				<!--Inicio de main-->
+				<form action="/papeleta/crear" th:action=@{/papeleta/crear} class="form" method="post">
+					<div class="container">
+						<div class="row">
+							<div class="col-3">
+								<label for="area">Area</label>
+							</div>
+							<div class="col-7">
+
+								<select id="area" name="area" class="form-control">
+									<option th:each="area : ${listadoAreas}" th:value="${area.idArea}" th:text="${area.nombreLargo}"></option>
+								</select>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-3">
+								<label for="empleado">Empleado</label>
+							</div>
+							<div class="col-7">
+								<select class="form-control" id="empleado" name="empleado">
+									<option th:each="empleado : ${listadoEmpleados}" th:value="${empleado.idPersona}"
+										th:text="${empleado.nombres}+' '+${empleado.primerApellido}"></option>
+								</select>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-3">
+								<label for="fechaInicio">Fecha y hora de Inicio</label>
+							</div>
+							<div class="col-5">
+								<input type="date" id="fechaInicio" name="fechaInicio" class="form-control">
+							</div>
+							<div class="col-2">
+								<input type="time" id="horaInicio" name="horaInicio" class="form-control">
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-3">
+								<label for="fechaFin">Fecha y hora Fin</label>
+							</div>
+							<div class="col-5">
+								<input type="date" id="fechaFin" name="fechaFin" class="form-control">
+							</div>
+							<div class="col-2">
+								<input type="time" id="horaFin" name="horaFin" class="form-control">
+							</div>
+						</div>
+					</div>
+					<fieldset class="border p-2">
+						<legend class="w-auto">Motivos</legend>
+						<div id="cajamotivo">
+
+							<div class="columna">
+								<p>CON GOCE DE REMUNERACION</p>
+								<div class="form-check">
+
+									<input class="form-check-input" type="radio" id="motivo11" value="1" name="motivo">
+									<label class="form-check-label" for="motivo11">Descanso Médico</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" id="motivo12" value="2" name="motivo">
+									<label class="form-check-label" for="motivo12">Cita Médica</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" id="motivo13" value="3" name="motivo">
+									<label class="form-check-label" for="motivo13">Capacitación Oficializada</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" id="motivo14" value="4" name="motivo">
+									<label class="form-check-label" for="motivo14">Comisión de servicios</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" id="motivo15" value="5" name="motivo">
+									<label class="form-check-label" for="motivo15">Onomastico</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" id="motivo16" value="6" name="motivo">
+									<label class="form-check-label" for="motivo16">Vacaciones</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" id="motivo17" value="7" name="motivo">
+									<label class="form-check-label" for="motivo17">Otro</label>
+								</div>
+
+							</div>
+							<div class="columna">
+								<p>SIN GOCE DE REMUNERACION</p>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" id="motivo21" value="8" name="motivo">
+									<label class="form-check-label" for="motivo21">Permiso Particular</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" id="motivo22" value="9" name="motivo">
+									<label class="form-check-label" for="motivo22">Capacitación no oficial</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" id="motivo23" value="10" name="motivo">
+									<label class="form-check-label" for="motivo23">Otro</label>
+								</div>
+							</div>
+
+							<div class="columna">
+								<p>PERMISOS CASOS ESPECIALES</p>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" id="motivo31" value="11" name="motivo">
+									<label class="form-check-label" for="motivo31">Omision de marcado</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" id="motivo32" value="12" name="motivo">
+									<label class="form-check-label" for="motivo32">Matrimonio</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" id="motivo33" value="13" name="motivo">
+									<label class="form-check-label" for="motivo33">Fallecimiento familiar</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" id="motivo34" value="14" name="motivo">
+									<label class="form-check-label" for="motivo34">Enfermedad familiar</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" id="motivo35" value="15" name="motivo">
+									<label class="form-check-label" for="motivo35">Licencia paternidad</label>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+					<div class="container">
+						<div class="row">
+							<div class="col-10">
+								<textarea name="observacion" id="observacion" class="form-control"></textarea>
+							</div>
+							<div class="col-2">
+								<input type="submit" class="btn btn-success btn-block" value="Grabar" id="btngrabar">
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!--Fin de main de la pagina  -->
+		</div>
+
+
+
+		<div id="pie" th:include ="/layout :: pie">
+    </div>
+</html>

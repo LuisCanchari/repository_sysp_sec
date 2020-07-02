@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta charset="UTF-8">
+</head>
+
+<th:block th:fragment="header">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="/demo.css" th:href="@{/css/demo.css}">
+
+	<!-- Fontawesome css -->
+	<link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css}">
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js}"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+	<!-- JQuery -->
+	<script th:src="@{https://code.jquery.com/jquery-3.2.1.slim.min.js}"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js}"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+</th:block>
+
+<div id="cabecera" th:fragment="cabecera">
+	<img th:src="@{/img/logo_7.png}" alt="logo">
+</div>
+
+<div id="filainfo" th:fragment="filainfo">
+	<div id="infosesion">
+<!-- 	<div sec:authorize="isAuthenticated()"> -->
+<!--     Welcome, <span sec:authentication="name">Username</span>      -->
+<!-- </div> -->
+		<a href="#">
+			<i class="fa fa-user-circle-o fa-fw" aria-hidden="true"> </i>
+			 <strong th:text="${#authentication.getPrincipal().getUsername()}+' '+${#authentication.getPrincipal().getAuthorities()}"> 
+				Usuario
+			</strong>
+		</a>
+		<a href="#" th:href="@{/logout}">
+			<i class="fa fa-home fa-fw" aria-hidden="true"></i>Salir
+		</a>
+	</div>
+	<div id="infotitulo">
+		<p>Página principal</p>
+		<p></p>
+	</div>
+</div>
+
+<div class="menu" th:fragment="menu">
+	<p>Gestión de Papeleta</p>
+	<a href="/papeleta_lista.html" th:href="@{/papeleta/listar}">
+		<i class="fa fa-book fa-fw" aria-hidden="true"></i>Listado
+	</a>
+	<a href="/papeleta_form.html#" th:href="@{/papeleta/form}">
+		<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Nueva Papeleta
+	</a>
+	<a href="#">
+		<i class="fa fa-cog fa-fw" aria-hidden="true"></i> Acciones
+	</a>
+
+	<p>Usuario</p>
+	<a href="#">
+		<i class="fa fa-user-circle-o fa-fw" aria-hidden="true"> </i> Cambiar contraseña
+	</a>
+	<a href="#">
+		<i class="fa fa-cog fa-fw" aria-hidden="true"></i> Configuración
+	</a>
+
+	<p>Mantenimiento</p>
+	<a href="#" th:href="@{/area/lista}">
+		<i class="fa fa-briefcase" aria-hidden="true"></i></i> Areas
+	</a>
+	<a href="#" th:href="@{/motivo/lista}">
+		<i class="fa fa-sticky-note-o" aria-hidden="true"></i> Motivo
+	</a>
+	<a href="#" th:href="@{/empleado/lista}">
+		<i class="fa fa-address-card-o" aria-hidden="true"></i> Empleado
+	</a>
+	<a href="#" th:href="@{/usuario/lista}">
+		<i class="fa fa-user-plus" aria-hidden="true"></i> Usuario
+	</a>
+
+</div>
+
+<div id="pie" th:fragment="pie">© copyright Universidad Científica del Sur al Bicentenario</div>
+</html>

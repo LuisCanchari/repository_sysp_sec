@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="/layout :: header"></div>
+    <title>Usuario</title>
+</head>
+
+<body>
+  <div id="contenedor">
+    <div id="cabecera" th:include ="/layout :: cabecera">
+    </div>
+    
+    <div id="filainfo" th:include ="/layout :: filainfo">
+    </div>
+    
+    <div class="fila">
+      <div class="menu" th:include ="/layout :: menu">
+      </div>
+      
+      <div class="main">
+				<a href="#" th:href="@{/usuario/form}" class="btn btn-success">
+					<i class="fa fa-plus" aria-hidden="true"></i> Nuevo Usuario
+				</a>
+				<table class="table table-light">
+					<thead class="thead-light">
+						<tr>
+							<th>Id</th>
+							<th>Username</th>
+							<th>Roles</th>
+							<th>Empleado</th>
+							<th>Acción</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr th:if="${usuarios.empty}">
+							<td>No existen resultados</td>
+						</tr>
+						<tr th:each="usuario: ${usuarios}">
+							<td>
+								<span th:text="${usuario.idUsuario}">Codigo</span>
+							</td>
+							<td>
+								<span th:text="${usuario.username}">Usuario</span>
+							</td>
+							<td>
+								<span th:each= "rol: ${usuario.roles}" th:text="'['+${rol.rolname}+'] '">Roles</span>
+							</td>
+							<td>
+								<span th:text="${usuario.nombres +' ' + usuario.primerApellido}">Empleado</span>
+							</td>
+							<td>
+								<a href="#" th:href="@{'/usuario/editar/'+${usuario.idUsuario}}">
+									<i class="fa fa-pencil-square" aria-hidden="true"></i> Edit
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+
+		<div id="pie">© copyright Universidad Cientifica del Sur</div>
+	</div>
+</html>
+
+
