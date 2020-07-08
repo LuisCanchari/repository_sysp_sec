@@ -19,7 +19,7 @@
 		From empleado e
 		Inner Join persona p
 		On e.id_empleado = p.id_persona
-		Inner Join area a
+		Left Join area a
 		On e.id_area = a.id_area
 	</select>
 	
@@ -31,11 +31,41 @@
 		From empleado e
 		Inner Join persona p
 		On e.id_empleado = p.id_persona
-		Inner Join area a
+		Left Join area a
     On e.id_area = a.id_area
 		Where
 		e.id_empleado = #{id}
 	</select>
+	<select id="listaEmpleadosByArea" resultMap="empleadoResultMap">
+	  Select
+    <include refid="edu.cientifica.papeleta.mappers.PersonaMapper.camposPersona" />,
+    <include refid="edu.cientifica.papeleta.mappers.EmpleadoMapper.camposEmpleado" />,
+    <include refid="edu.cientifica.papeleta.mappers.AreaMapper.camposArea"/>
+    From empleado e
+    Inner Join persona p
+    On e.id_empleado = p.id_persona
+    Left Join area a
+    On e.id_area = a.id_area
+    <where>
+      <if test="idArea!=0">
+        e.id_area = #{idArea}
+      </if>
+    </where>
+    
+	</select>
+	<insert id="insertarEmpleado" parameterType="edu.cientifica.papeleta.model.Empleado">
+	   INSERT INTO empleado (id_empleado, id_area, fecha_ingreso, id_tipo_empleado, id_tipo_contrato, id_estado) 
+	   VALUES (#{idPersona},#{area.idArea}, #{fechaIngreso}, #{tipoEmpleado}, 1, 1);
+	</insert>
+	<update id="actualizarEmpleado" parameterType="edu.cientifica.papeleta.model.Empleado">
+	 UPDATE empleado
+    SET
+      id_tipo_empleado = #{tipoEmpleado},
+		  id_area = #{area.idArea},
+		  fecha_ingreso = #{fechaIngreso}
+		WHERE id_empleado = #{idPersona}
+	</update>
+	
 	
 	<sql id="camposEmpleado">
 		e.fecha_ingreso,

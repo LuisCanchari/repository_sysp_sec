@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<div th:replace="/layout :: header"></div>
+<title>Empleado</title>
+</head>
+
+<body>
+	<div id="contenedor">
+		<div id="cabecera" th:include="/layout :: cabecera"></div>
+
+		<div id="filainfo" th:include="/layout :: filainfo"></div>
+
+		<div class="fila">
+			<div class="menu" th:include="/layout :: menu"></div>
+
+			<div class="main">
+				<a href="#" th:href="@{/empleado/form}" class="btn btn-success">
+					<i class="fa fa-plus" aria-hidden="true"></i> Nuevo Empleado
+				</a>
+				<form th:action="@{/empleado/lista}" method="POST" id="Search_form" class="form-horizontal">
+
+              <!-- <label for="idPageNum">Página</label>
+              <input type="number" name="pageNum" id="idPageNum" th:value="${pageInfo.pageNum}"/> -->
+
+              <!-- <label for="idPageSize">Número de Registros</label>
+              <input type="number" value="5" name="pageSize" /> -->
+
+
+              <input type="hidden" name="pageNum" id="idPageNum" th:value="${pageInfo.pageNum}" />
+              <!-- <input type="submit" value="Listar" id="btnEnviar" /> -->
+
+
+            </form>
+				<table class="table table-light">
+					<thead class="thead-light">
+						<tr>
+							<th>Id</th>
+							<th>Documento</th>
+							<th>Nombres</th>
+							<th>Apellidos</th>
+							<th>Area</th>
+							<th>Fecha Ingreso</th>
+							<th>Accion</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr th:if="${empleados.empty}">
+							<td>No existen resultados</td>
+						</tr>
+						<tr th:each="empleado: ${empleados}">
+							<td>
+								<span th:text="${empleado.idPersona}">Codigo</span>
+							</td>
+							<td>
+								<span th:text="${empleado.numeroDocumento}">Documento</span>
+							</td>
+							<td>
+								<span th:text="${empleado.nombres}">Nombres</span>
+							</td>
+							<td>
+								<span th:text="${empleado.primerApellido+' '+empleado.segundoApellido}">Apellidos</span>
+							</td>
+							<td>
+								<span th:text="${empleado.area!=null}?${empleado.area.nombreCorto}:''">Area</span>
+							</td>
+							<td>
+								<span th:text="${empleado.fechaIngreso}">Fecha Ingreso</span>
+							</td>
+							<td>
+								<span th:if="${#authorization.expression('hasRole(''ROLE_EDITOR'')')}"> <a href="#"
+										th:href="@{'/empleado/editar/'+${empleado.idPersona}}">
+										<i class="fa fa-pencil-square" aria-hidden="true"></i> Edit
+									</a>
+								</span>
+
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<nav aria-label="Page navigation">
+					<ul class="pagination pull-right">
+
+						<li th:class="${pageInfo.isFirstPage} ? 'disabled'"><a class="page-link" href="javascript:void(0)"
+								th:onclick="${!pageInfo.isFirstPage} ? 'doSearch(1);'">Inicio</a></li>
+
+						<li th:class=" ${pageInfo.isFirstPage} ? 'disabled'"><a class="page-link" href="javascript:void(0)"
+								th:onclick="${!pageInfo.isFirstPage} ? 'doSearch(' + ${pageInfo.prePage} + ');'">Anterior</a></li>
+
+						<li th:each="page : ${pageInfo.navigatepageNums}" th:class="${page == pageInfo.pageNum} ? 'active'"><a
+								class="page-link" href="javascript:void(0)" th:text="${page}" th:onclick="'doSearch(' + ${page} + ');'"></a></li>
+
+						<li th:class=" ${pageInfo.isLastPage} ? 'disabled'"><a class="page-link" href="javascript:void(0)"
+								th:onclick="${!pageInfo.isLastPage} ? 'doSearch(' + ${pageInfo.nextPage} + ');'">Siguiente</a></li>
+
+						<li th:class=" ${pageInfo.isLastPage} ? 'disabled'"><a class="page-link" href="javascript:void(0)"
+								th:onclick="${!pageInfo.isLastPage} ? 'doSearch(' + ${pageInfo.pages} + ');'">Último</a></li>
+
+						<li><input type="number" class="input change-page-num" style="width: 50px; margin: 0px;"
+								th:value="${pageInfo.pageNum}" id="idTextIr" /></li>
+						<li>
+							<button class="btn btn-info" type="button" th:onclick="'doSearch($(\'#idTextIr\').val())'">Ir</button>
+						</li>
+					</ul>
+				</nav>
+
+			</div>
+		</div>
+
+		<div id="pie" th:include="/layout :: pie"></div>
+</div>
+   <script>
+    function doSearch(pageNum) {
+
+      $("#idPageNum").val(pageNum);
+      $("#Search_form").submit();
+
+      //window.alert("ingreso");
+    }
+  </script>
+</body>
+</html>
+
+

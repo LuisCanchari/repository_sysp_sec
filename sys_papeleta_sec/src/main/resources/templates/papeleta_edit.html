@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <div th:replace="/layout :: header"></div>
-    <title>Principal</title>
+    <title>Papeleta</title>
 </head>
 
 <body>
@@ -26,10 +26,10 @@
 					<div class="container">
 						<div class="row">
 							<div class="col-3">
-								<label for="area">Id</label>
+								<label for="idPapeleta">Id</label>
 							</div>
 							<div class="col-7">
-								<input type="text" name="idPapeleta" readonly="readonly" class="form-control" th:field="*{idPapeleta}">
+								<input type="text" id="idPapeleta" name="idPapeleta" readonly="readonly" class="form-control" th:field="*{idPapeleta}">
 							</div>
 
 						</div>
@@ -190,10 +190,8 @@
 			</div>
 			<!--Fin de main de la pagina  -->
 		</div>
-
-
-
 		<div id="pie" th:include ="/layout :: pie">
     </div>
 	</div>
+	</body>
 </html>

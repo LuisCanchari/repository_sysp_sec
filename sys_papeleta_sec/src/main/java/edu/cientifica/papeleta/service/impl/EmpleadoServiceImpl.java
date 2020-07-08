@@ -6,11 +6,19 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.github.pagehelper.PageHelper;
 
 import edu.cientifica.papeleta.mappers.EmpleadoMapper;
+import edu.cientifica.papeleta.mappers.PersonaMapper;
 import edu.cientifica.papeleta.model.Area;
 import edu.cientifica.papeleta.model.Empleado;
+import edu.cientifica.papeleta.model.Persona;
 import edu.cientifica.papeleta.service.AreaService;
 import edu.cientifica.papeleta.service.EmpleadoService;
 
@@ -26,7 +34,10 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 	
 	@Autowired
 	private EmpleadoMapper empleadoMapper;
-
+	
+	@Autowired
+	private PersonaMapper personaMapper;
+	
 	public EmpleadoServiceImpl() {
 		super();
 		listadoEmpleados = new ArrayList<Empleado>();
@@ -50,32 +61,48 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 		listadoEmpleados.add(e4);
 	}
 	@Override
-	public List<Empleado> listarEmpleados() {
-		LOG.info("ingreso a lista de empleados");
+	public List<Empleado> listarEmpleados(Integer pageNum, Integer pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
 		List<Empleado> listado = new ArrayList<Empleado>();
 		listado =  empleadoMapper.listaEmpleado();
-		
-		for (Empleado empleado : listado) {
-			LOG.info(empleado.toString());
-			
-		}
-
-		//return listadoEmpleados;
-		
 		return  listado;
 				
 	}
 	
 	@Override
 	public Empleado empleadoById(int id) {
-		Empleado empleado; //= new Empleado();
+		Empleado empleado; 
 		empleado = empleadoMapper.empleadoById(id);
-		/*
-		for (Empleado empleado : listadoEmpleados) {
-			if (empleado.getIdPersona() == id) {
-				return empleado;
-			}
-		}*/
 		return empleado;
 	}
+	
+	@Override
+	public List<Empleado> listaEmpleadosByArea(int idArea) {
+		return empleadoMapper.listaEmpleadosByArea(idArea);
+	}
+	@Override
+	@Transactional
+	public int insertarEmpleado(Empleado empleado) {
+		
+		int idPersona = personaMapper.nuevoIdPersona();
+		empleado.setIdPersona(idPersona);
+		Persona persona =  (Persona) empleado;
+		personaMapper.insertarPersona(persona);
+		empleadoMapper.insertarEmpleado(empleado);
+		
+		return 0;
+	}
+	@Override
+	@Transactional
+	public int actualizarEmpleado(Empleado empleado) {
+		if (empleado.getArea().getIdArea()==0){
+			empleado.setArea(null);
+		}
+		personaMapper.actualizarPersona((Persona)empleado);
+		empleadoMapper.actualizarEmpleado(empleado);
+		return 0;
+	}
+	
+	
+	
 }

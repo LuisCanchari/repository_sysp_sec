@@ -32,4 +32,24 @@
      p.fecha_nacimiento,
      p.id_genero
 	</sql>
+	<insert id="insertarPersona" parameterType="edu.cientifica.papeleta.model.Persona">
+	   INSERT INTO persona (id_persona, id_tipo_doc, num_doc, nombre, apellido_1, apellido_2,  fecha_nacimiento, id_genero)
+	   VALUES (#{idPersona}, 1 ,#{numeroDocumento}, #{nombres}, #{primerApellido}, #{segundoApellido}, #{fechaNacimiento}, #{genero})
+	</insert>
+	<select id="nuevoIdPersona">
+   select IFNULL(max(id_persona), 0)+1  nuevoIdPersona from persona
+  </select>
+  <update id="actualizarPersona" parameterType="edu.cientifica.papeleta.model.Persona">
+    UPDATE persona
+			SET
+			nombre = #{nombres} ,
+			apellido_1 = #{primerApellido},
+			apellido_2 = #{segundoApellido},
+			id_tipo_doc = 1,
+			num_doc =#{numeroDocumento},
+			id_genero = #{genero},
+			fecha_nacimiento = #{fechaNacimiento}
+		WHERE id_persona = #{idPersona}
+  </update>
+	
 </mapper>

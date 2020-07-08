@@ -60,10 +60,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers("/js/**", "/css/**", "/layout/**", "/img/**", "/jquery/**", "/vendor/**", "/i18n/**",
 						"/logout/**", "/error/**").permitAll()
-				.antMatchers("/usuario/**").hasRole("ADMIN")
-				.antMatchers("/area/**","/motivo/**").hasAnyRole("ADMIN","EDITOR")
+				//.antMatchers("/usuario/**").hasRole("ADMIN")
+				//.antMatchers("/area/**","/motivo/**").hasAnyRole("ADMIN","EDITOR")
 				//.antMatchers("/papeleta/**").hasAnyAuthority("ROLE_USER","ROLE_EDITOR")
-				.antMatchers("/papeleta/**").hasAnyRole("USER","EDITOR")
+				//.antMatchers("/papeleta/**").hasAnyRole("USER","EDITOR")
 				.anyRequest().authenticated()
 		.and()
 		.formLogin()

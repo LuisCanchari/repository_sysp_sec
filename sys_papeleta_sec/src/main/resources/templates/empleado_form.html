@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<div th:replace="/layout :: header"></div>
+<title>Empleado</title>
+</head>
+
+<body>
+	<div id="contenedor">
+		<div id="cabecera" th:include="/layout :: cabecera"></div>
+
+		<div id="filainfo" th:include="/layout :: filainfo"></div>
+
+		<div class="fila">
+			<div class="menu" th:include="/layout :: menu"></div>
+
+			<div class="main">
+				<form th:action="@{/empleado/crear}" method="POST" th:object="${empleado}" class="form">
+					<div class="container">
+						<div class="row">
+							<div class="col-3">
+								<label for="numId">Id: </label>
+							</div>
+							<div class="col-3">
+								<input type="number" id="numId" name="idPersona" th:field="*{idPersona}" class="form-control" th:readonly="true">
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-3">
+								<label for="txtDocumento">Documento: </label>
+							</div>
+							<div class="col-3">
+								<input type="text" id="txtDocumento" name="numeroDocumento" th:field="*{numeroDocumento}" class="form-control">
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-3">
+								<label for="txtNombres">Nombres: </label>
+							</div>
+
+							<div class="col-7">
+								<input type="text" id="txtNombres" name="nombres" th:field="*{nombres}" class="form-control">
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-3">
+								<label for="txtprimerApellido">Primer Apellido: </label>
+							</div>
+
+							<div class="col-7">
+								<input type="text" id="txtprimerApellido" name="primerApellido" th:field="*{primerApellido}"
+									class="form-control">
+							</div>
+						</div>
+
+
+						<div class="row">
+							<div class="col-3">
+								<label for="txtsegundoApellido">Segundo Apellido: </label>
+							</div>
+
+							<div class="col-7">
+								<input type="text" id="txtsegundoApellido" name="segundoApellido" th:field="*{segundoApellido}"
+									class="form-control">
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-3">
+								<label for="fechaNacimiento">Fecha Nacimiento: </label>
+							</div>
+
+							<div class="col-3">
+								<input type="date" id="fechaNacimiento" name="fechaNacimiento" th:value="*{fechaNacimiento}"
+									class="form-control">
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-3">
+								<label for="txtGenero">Genero: </label>
+							</div>
+
+							<div class="col-3">
+								<input type="text" id="txtGenero" name="txtGenero" th:field="*{genero}" class="form-control">
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-3">
+								<label for="area">Area: </label>
+							</div>
+
+							<div class="col-7">
+								<select id="area" name="area" class="form-control" th:field="*{area.idArea}">
+								  <option th:value="0" th:text="---Seleccionar---"></option>
+                  <option th:each="area : ${listadoAreas}" th:value="${area.idArea}" th:text="${area.nombreLargo}"></option>
+                </select>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-3">
+								<label for="fechaIngreso">Fecha Ingreso: </label>
+							</div>
+
+							<div class="col-3">
+								<input type="date" id="fechaIngreso" name="fechaIngreso" th:value="*{fechaIngreso}" class="form-control">
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-3">
+								<label for="tipoEmpleado">Tipo Empleado: </label>
+							</div>
+
+							<div class="col-3">
+								<input type="text" id="tipoEmpleado" name="tipoEmpleado" th:field="*{tipoEmpleado}" class="form-control">
+							</div>
+						</div>
+
+
+						<div class="row">
+							<div class="col-3">
+								<input type="submit" value="Guardar" class="btn btn-success btn-block">
+							</div>
+						</div>
+					</div>
+					<!-- Fin Container -->
+				</form>
+			</div>
+			<!-- Fin Main -->
+		</div>
+		<!-- Fin Fila -->
+		<div id="pie" th:include="/layout :: pie"></div>
+	</div>
+	<!-- Fin Contenedos -->
+</body>
+</html>
+
+

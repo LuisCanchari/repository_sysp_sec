@@ -57,8 +57,13 @@
 
               <div class="col-7">
               <select id="areaSuperior" name="areaSuperior" class="form-control" th:field="*{areaSuperior.idArea}">
-                <option th:each="area : ${listadoAreas}" th:value="${area.idArea}" th:text="${area.nombreLargo}" 
-                th:selected="(${area.idArea}==*{areaSuperior.idArea})"></option>
+                <option th:value="0" th:text="---Seleccionar---" th:selected="*{areaSuperior}?false:true"></option>
+                <option th:each="area : ${listadoAreas}" th:value="${area.idArea}" th:text="${area.nombreLargo}"
+                        th:selected = "*{areaSuperior!=null}?${area.idArea}==*{areaSuperior.idArea}:false">  
+                
+                </option>
+              
+              
               </select>
               </div>
             </div>

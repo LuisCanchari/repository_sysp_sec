@@ -2,24 +2,21 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <div th:replace="/layout :: header"></div>
-    <title>Principal</title>
+<meta charset="UTF-8">
+<div th:replace="/layout :: header"></div>
+<title>Principal</title>
 </head>
 
 <body>
-  <div id="contenedor">
-    <div id="cabecera" th:include ="/layout :: cabecera">
-    </div>
-    
-    <div id="filainfo" th:include ="/layout :: filainfo">
-    </div>
-    
-    <div class="fila">
-      <div class="menu" th:include ="/layout :: menu">
-      </div>
-      
-      <div class="main">
+	<div id="contenedor">
+		<div id="cabecera" th:include="/layout :: cabecera"></div>
+
+		<div id="filainfo" th:include="/layout :: filainfo"></div>
+
+		<div class="fila">
+			<div class="menu" th:include="/layout :: menu"></div>
+
+			<div class="main">
 				<!--Inicio de main-->
 				<form action="/papeleta/crear" th:action=@{/papeleta/crear} class="form" method="post">
 					<div class="container">
@@ -164,8 +161,7 @@
 			<!--Fin de main de la pagina  -->
 		</div>
 
-
-
-		<div id="pie" th:include ="/layout :: pie">
-    </div>
+		<div id="pie" th:include="/layout :: pie"></div>
+	
+</body>
 </html>

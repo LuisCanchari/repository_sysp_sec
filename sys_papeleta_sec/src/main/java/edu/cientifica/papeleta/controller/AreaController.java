@@ -51,8 +51,7 @@ public class AreaController {
 		List<Area> listadoAreas;
 		listadoAreas = areaService.listarAreas();
 		Area area = areaService.areaById(id);
-		
-		LOG.info("Area Superior"+area.getAreaSuperior().toString());
+				
 		model.addAttribute("listadoAreas", listadoAreas);
 		model.addAttribute("area", area);
 

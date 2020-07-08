@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="/layout :: header"></div>
+    <title>Papeleta</title>
+</head>
+
+<body>
+  <div id="contenedor">
+    <div id="cabecera" th:include ="/layout :: cabecera">
+    </div>
+    
+    <div id="filainfo" th:include ="/layout :: filainfo">
+    </div>
+    
+    <div class="fila">
+      <div class="menu" th:include ="/layout :: menu">
+      </div>
+      
+      <div class="main">
+				<!--Inicio de main-->
+				<form action="/empleado/actualizar" th:action=@{/empleado/actualizar} th:object="${empleado}" method="post"
+					class="form">
+					<div class="container">
+						<div class="row">
+							<div class="col-3">
+								<label for="id">Id</label>
+							</div>
+							<div class="col-7">
+								<input type="text" id="id" name="idPersona" readonly="readonly" class="form-control" th:field="*{idPersona}">
+							</div>
+
+						</div>
+						<div class="row">
+							<div class="col-3">
+								<label for="documento">Documento</label>
+							</div>
+							<div class="col-7">
+							 <input type="text" id="documento" name="numeroDocumento" th:field="*{numeroDocumento}" class="form-control">
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-3">
+								<label for="nombres">Nombres</label>
+							</div>
+							<div class="col-7">
+								  <input type="text" id="nombres" name="nombres" th:field="*{nombres}" class="form-control">
+							</div>
+						</div>
+						
+						<div class="row">
+              <div class="col-3">
+                <label for="primerApellido">Primer Apellido: </label>
+              </div>
+
+              <div class="col-7">
+                <input type="text" id="primerApellido" name="primerApellido" th:field="*{primerApellido}"
+                  class="form-control">
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-3">
+                <label for="segundoApellido">Segundo Apellido: </label>
+              </div>
+
+              <div class="col-7">
+                <input type="text" id="segundoApellido" name="segundoApellido" th:field="*{segundoApellido}"
+                  class="form-control">
+              </div>
+            </div>
+            
+
+						<div class="row">
+							<div class="col-3">
+								<label for="fechaNacimiento">Fecha Nacimiento</label>
+							</div>
+							<div class="col-5">
+								<input type="date" id="fechaNacimiento" name="fechaNacimiento" class="form-control" th:value="*{fechaNacimiento}">
+							</div>
+						</div>
+						
+						<div class="row">
+              <div class="col-3">
+                <label for="genero">Genero: </label>
+              </div>
+
+              <div class="col-3">
+                <input type="text" id="genero" name="txtGenero" th:field="*{genero}" class="form-control">
+              </div>
+            </div>
+            
+            
+            <div class="row">
+              <div class="col-3">
+                <label for="area">Area: </label>
+              </div>
+
+              <div class="col-7">
+                <select id="area" name="area" class="form-control" th:field="*{area.idArea}">
+                  <option th:value="0" th:text="---Seleccionar---"></option>
+                  <option th:each="area : ${areas}" th:value="${area.idArea}" th:text="${area.nombreLargo}"
+                  th:selected="*{area!=null}?(*{area.idArea}==${area.idArea}):false"></option>
+                </select>
+              </div>
+            </div>
+
+						<div class="row">
+							<div class="col-3">
+								<label for="fechaIngreso">Fecha Ingreso</label>
+							</div>
+							<div class="col-5">
+								<input type="date" id="fechaIngreso" name="fechaIngreso" class="form-control" th:value="*{fechaIngreso}">
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+              <div class="col-3">
+                <label for="tipoEmpleado">Tipo Empleado: </label>
+              </div>
+
+              <div class="col-3">
+                <input type="text" id="tipoEmpleado" name="tipoEmpleado" th:field="*{tipoEmpleado}" class="form-control">
+              </div>
+            </div>
+            
+					
+					<div class="container">
+						<div class="row">
+							<div class="col-2">
+								<input type="submit" class="btn btn-success btn-block" value="Actualizar" id="btnActualizar">
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!--Fin de main de la pagina  -->
+		</div>
+		<div id="pie" th:include ="/layout :: pie">
+    </div>
+	</div>
+	</body>
+</html>

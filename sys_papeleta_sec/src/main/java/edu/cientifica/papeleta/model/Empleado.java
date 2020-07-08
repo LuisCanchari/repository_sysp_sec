@@ -1,6 +1,6 @@
 package edu.cientifica.papeleta.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Empleado extends Persona {
 	private Area area;

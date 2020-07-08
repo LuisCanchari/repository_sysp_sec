@@ -40,35 +40,28 @@ public class PapeletaServiceImpl implements PapeletaService{
 	@Override
 	public List<Papeleta> listaPapeletas() {
 		List<Papeleta> listaPapeleta = new ArrayList<Papeleta>();
-		LOG.info("lista Papeletas");
 		listaPapeleta = papeletaMapper.listaPapeleta();
 		for (Papeleta papeleta : listaPapeleta) {
 			LOG.info(papeleta.toString());
 		}
 		return papeletaMapper.listaPapeleta();
-		
-		//return listaPapeleta;
+
 	}
 	
 	@Override
 	public int insertarPapeleta(Papeleta papeleta) {
 		LOG.info("Datos de papeleta: " +papeleta.toString());
 		papeletaMapper.insertarPapeleta(papeleta);
-		//listaPapeleta.add(p);
 		return 0;
 	}
 	
 	@Override
 	public Papeleta papeletaById(int id) {
-	
-		return papeletaMapper.papeletaById(id);
-		//return null;
+			return papeletaMapper.papeletaById(id);
 	}
 
 	@Override
 	public int actualizarPapeleta(Papeleta papeleta) {
-		// TODO Auto-generated method stub
-		
 		return papeletaMapper.actualizarPapeleta(papeleta);
 	}
 	

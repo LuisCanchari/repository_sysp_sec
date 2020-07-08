@@ -41,21 +41,14 @@ public class AreaServiceImpl implements AreaService {
 		for (Area area : listado) {
 			LOG.info(area.toString());
 		}
-		/*conectar a bd*/
+		
 		return listado;
 	}
 
 	@Override
 	public Area areaById(int codigo) {
 		return areaMapper.areaById(codigo);
-		/*
-		for (Area area : listadoAreas) {
-			if (area.getIdArea() == codigo) {
-				return area;
-			}
-		}*/
-
-		//return null;
+		
 	}
 
 	@Override
@@ -72,13 +65,20 @@ public class AreaServiceImpl implements AreaService {
 
 	@Override
 	public int insertarArea(Area area) {
+		if (area.getAreaSuperior().getIdArea()==0){
+			area.setAreaSuperior(null);
+		}
 		area.setIdArea(areaMapper.nuevoIdArea());
+		
 		areaMapper.insertarArea(area);
 		return 0;
 	}
 
 	@Override
 	public int actualizarArea(Area area) {
+		if (area.getAreaSuperior().getIdArea()==0){
+			area.setAreaSuperior(null);
+		}
 		areaMapper.actualizarArea(area);
 		// TODO Auto-generated method stub
 		return 0;

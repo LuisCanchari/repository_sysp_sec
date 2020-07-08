@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <div th:replace="/layout :: header"></div>
@@ -53,7 +54,7 @@
 								</a>
 							</td>
 							<td>
-							<span th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" >
+							<span th:if="${#authorization.expression('hasRole(''ROLE_EDITOR'')')}" >
 								<a href="#" th:href="@{'/area/editar/'+${area.idArea}}">
 									<i class="fa fa-pencil-square" aria-hidden="true"></i> Edit
 								</a>
