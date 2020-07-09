@@ -8,190 +8,176 @@
 </head>
 
 <body>
-  <div id="contenedor">
-    <div id="cabecera" th:include ="/layout :: cabecera">
-    </div>
-    
-    <div id="filainfo" th:include ="/layout :: filainfo">
-    </div>
-    
-    <div class="fila">
-      <div class="menu" th:include ="/layout :: menu">
-      </div>
-      
-      <div class="main">
-				<!--Inicio de main-->
-				<form action="/papeleta/actualizar" th:action=@{/papeleta/actualizar} th:object="${papeleta}" method="post"
-					class="form">
-					<div class="container">
-						<div class="row">
-							<div class="col-3">
-								<label for="idPapeleta">Id</label>
-							</div>
-							<div class="col-7">
-								<input type="text" id="idPapeleta" name="idPapeleta" readonly="readonly" class="form-control" th:field="*{idPapeleta}">
-							</div>
+    <div id="contenedor">
+        <div id="cabecera" th:include="/layout :: cabecera">
+        </div>
 
-						</div>
-						<div class="row">
-							<div class="col-3">
-								<label for="area">Area</label>
-							</div>
-							<div class="col-7">
+        <div id="filainfo" th:include="/layout :: filainfo">
+        </div>
 
-								<select id="area" name="area" readonly="readonly" th:field="*{empleado.area.idArea}" class="form-control">
+        <div class="fila">
+            <div class="menu" th:include="/layout :: menu">
+            </div>
+
+            <div class="main" id="main">
+                <!--Inicio de main-->
+                <form action="/papeleta/actualizar" th:action=@{/papeleta/actualizar} th:object="${papeleta}" method="post" class="form">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="idPapeleta">Id</label>
+                            </div>
+                            <div class="col-7">
+                                <input type="text" id="idPapeleta" name="idPapeleta" readonly="readonly" class="form-control" th:field="*{idPapeleta}">
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="area">Area</label>
+                            </div>
+                            <div class="col-7">
+
+                                <select id="area" name="area" readonly="readonly" th:field="*{empleado.area.idArea}" class="form-control">
 									<option th:each="area : ${listadoAreas}" th:value="${area.idArea}" th:text="${area.nombreLargo}"
 										th:selected="(${area.idArea}==*{empleado.area.idArea})"></option>
 								</select>
-							</div>
-						</div>
+                            </div>
+                        </div>
 
-						<div class="row">
-							<div class="col-3">
-								<label for="empleado">Empleado</label>
-							</div>
-							<div class="col-7">
-								<select id="empleado" name="empleado" readonly="readonly" th:field="*{empleado.idPersona}" class="form-control">
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="empleado">Empleado</label>
+                            </div>
+                            <div class="col-7">
+                                <select id="empleado" name="empleado" readonly="readonly" th:field="*{empleado.idPersona}" class="form-control">
 									<option th:each="empleado : ${listadoEmpleados}" th:value="${empleado.idPersona}"
 										th:text="${empleado.nombres}+' '+${empleado.primerApellido}"
 										th:selected="(${empleado.idPersona}==*{empleado.idPersona})"></option>
 								</select>
-							</div>
-						</div>
+                            </div>
+                        </div>
 
-						<div class="row">
-							<div class="col-3">
-								<label for="fechaInicio">Fecha y hora de Inicio</label>
-							</div>
-							<div class="col-5">
-								<input type="date" id="fechaInicio" name="fechaInicio" class="form-control" th:value="*{fechaInicio}">
-							</div>
-							<div class="col-2">
-								<input type="time" id="horaInicio" name="horaInicio" class="form-control" th:value="*{horaInicio}">
-							</div>
-						</div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="fechaInicio">Fecha y hora de Inicio</label>
+                            </div>
+                            <div class="col-5">
+                                <input type="date" id="fechaInicio" name="fechaInicio" class="form-control" th:value="*{fechaInicio}">
+                            </div>
+                            <div class="col-2">
+                                <input type="time" id="horaInicio" name="horaInicio" class="form-control" th:value="*{horaInicio}">
+                            </div>
+                        </div>
 
-						<div class="row">
-							<div class="col-3">
-								<label for="fechaFin">Fecha y hora Fin</label>
-							</div>
-							<div class="col-5">
-								<input type="date" id="fechaFin" name="fechaFin" class="form-control" th:value="*{fechaFin}">
-							</div>
-							<div class="col-2">
-								<input type="time" id="horaFin" name="horaFin" class="form-control" th:value="*{horaFin}">
-							</div>
-						</div>
-					</div>
-					<fieldset class="border p-2">
-						<legend class="w-auto">Motivos</legend>
-						<div id="cajamotivo">
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="fechaFin">Fecha y hora Fin</label>
+                            </div>
+                            <div class="col-5">
+                                <input type="date" id="fechaFin" name="fechaFin" class="form-control" th:value="*{fechaFin}">
+                            </div>
+                            <div class="col-2">
+                                <input type="time" id="horaFin" name="horaFin" class="form-control" th:value="*{horaFin}">
+                            </div>
+                        </div>
+                    </div>
+                    <fieldset class="border p-2">
+                        <legend class="w-auto">Motivos</legend>
+                        <div id="cajamotivo">
 
-							<div class="columna">
-								<p>CON GOCE DE REMUNERACION</p>
-								<div class="form-check">
-									<input class="form-check-input" type="radio" id="motivo11" value="1" name="motivo"
-										th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==1)">
-									<label class="form-check-label" for="motivo11">Descanso Médico</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="radio" id="motivo12" value="2" name="motivo"
-										th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==2)">
-									<label class="form-check-label" for="motivo12">Cita Médica</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="radio" id="motivo13" value="3" name="motivo"
-										th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==3)">
-									<label class="form-check-label" for="motivo13">Capacitación Oficializada</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="radio" id="motivo14" value="4" name="motivo"
-										th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==4)">
-									<label class="form-check-label" for="motivo14">Comisión de servicios</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="radio" id="motivo15" value="5" name="motivo"
-										th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==5)">
-									<label class="form-check-label" for="motivo15">Onomastico</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="radio" id="motivo16" value="6" name="motivo"
-										th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==6)">
-									<label class="form-check-label" for="motivo16">Vacaciones</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="radio" id="motivo17" value="7" name="motivo"
-										th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==7)">
-									<label class="form-check-label" for="motivo17">Otro</label>
-								</div>
+                            <div class="columna">
+                                <p>CON GOCE DE REMUNERACION</p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="motivo11" value="1" name="motivo" th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==1)">
+                                    <label class="form-check-label" for="motivo11">Descanso Médico</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="motivo12" value="2" name="motivo" th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==2)">
+                                    <label class="form-check-label" for="motivo12">Cita Médica</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="motivo13" value="3" name="motivo" th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==3)">
+                                    <label class="form-check-label" for="motivo13">Capacitación Oficializada</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="motivo14" value="4" name="motivo" th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==4)">
+                                    <label class="form-check-label" for="motivo14">Comisión de servicios</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="motivo15" value="5" name="motivo" th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==5)">
+                                    <label class="form-check-label" for="motivo15">Onomastico</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="motivo16" value="6" name="motivo" th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==6)">
+                                    <label class="form-check-label" for="motivo16">Vacaciones</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="motivo17" value="7" name="motivo" th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==7)">
+                                    <label class="form-check-label" for="motivo17">Otro</label>
+                                </div>
 
-							</div>
-							<div class="columna">
-								<p>SIN GOCE DE REMUNERACION</p>
-								<div class="form-check">
-									<input class="form-check-input" type="radio" id="motivo21" value="8" name="motivo"
-										th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==8)">
-									<label class="form-check-label" for="motivo21">Permiso Particular</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="radio" id="motivo22" value="9" name="motivo"
-										th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==9)">
-									<label class="form-check-label" for="motivo22">Capacitación no oficial</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="radio" id="motivo23" value="10" name="motivo"
-										th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==10)">
-									<label class="form-check-label" for="motivo23">Otro</label>
-								</div>
-							</div>
+                            </div>
+                            <div class="columna">
+                                <p>SIN GOCE DE REMUNERACION</p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="motivo21" value="8" name="motivo" th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==8)">
+                                    <label class="form-check-label" for="motivo21">Permiso Particular</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="motivo22" value="9" name="motivo" th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==9)">
+                                    <label class="form-check-label" for="motivo22">Capacitación no oficial</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="motivo23" value="10" name="motivo" th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==10)">
+                                    <label class="form-check-label" for="motivo23">Otro</label>
+                                </div>
+                            </div>
 
-							<div class="columna">
-								<p>PERMISOS CASOS ESPECIALES</p>
-								<div class="form-check">
-									<input class="form-check-input" type="radio" id="motivo31" value="11" name="motivo"
-										th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==11)">
-									<label class="form-check-label" for="motivo31">Omision de marcado</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="radio" id="motivo32" value="12" name="motivo"
-										th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==12)">
-									<label class="form-check-label" for="motivo32">Matrimonio</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="radio" id="motivo33" value="13" name="motivo"
-										th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==13)">
-									<label class="form-check-label" for="motivo33">Fallecimiento familiar</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="radio" id="motivo34" value="14" name="motivo"
-										th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==14)">
-									<label class="form-check-label" for="motivo34">Enfermedad familiar</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="radio" id="motivo35" value="15" name="motivo"
-										th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==15)">
-									<label class="form-check-label" for="motivo35">Licencia paternidad</label>
-								</div>
-							</div>
-						</div>
-					</fieldset>
-					<div class="container">
-						<div class="row">
-							<div class="col-10">
-								<textarea name="observacion" id="observacion" class="form-control" th:field="*{observacion}"
-									th:value="*{observacion}"></textarea>
-							</div>
-							<div class="col-2">
-								<input type="submit" class="btn btn-success btn-block" value="Actualizar" id="btnActualizar">
-							</div>
-						</div>
-					</div>
-				</form>
-			</div>
-			<!--Fin de main de la pagina  -->
-		</div>
-		<div id="pie" th:include ="/layout :: pie">
+                            <div class="columna">
+                                <p>PERMISOS CASOS ESPECIALES</p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="motivo31" value="11" name="motivo" th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==11)">
+                                    <label class="form-check-label" for="motivo31">Omision de marcado</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="motivo32" value="12" name="motivo" th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==12)">
+                                    <label class="form-check-label" for="motivo32">Matrimonio</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="motivo33" value="13" name="motivo" th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==13)">
+                                    <label class="form-check-label" for="motivo33">Fallecimiento familiar</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="motivo34" value="14" name="motivo" th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==14)">
+                                    <label class="form-check-label" for="motivo34">Enfermedad familiar</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="motivo35" value="15" name="motivo" th:field="*{motivo.idMotivo}" th:checked="(${papeleta.motivo.idMotivo}==15)">
+                                    <label class="form-check-label" for="motivo35">Licencia paternidad</label>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-10">
+                                <textarea name="observacion" id="observacion" class="form-control" th:field="*{observacion}" th:value="*{observacion}"></textarea>
+                            </div>
+                            <div class="col-2">
+                                <input type="submit" class="btn btn-success btn-block" value="Actualizar" id="btnActualizar">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--Fin de main de la pagina  -->
+            <!-- <input type="button" onclick="printDiv('main')" value="Imprimir" /> -->
+            <!--  <input type="button" id="btn" value="Print" onclick="PrintElem('main');"> -->
+        </div>
+        <div id="pie" th:include="/layout :: pie">
+        </div>
     </div>
-	</div>
-	</body>
+</body>
+
 </html>

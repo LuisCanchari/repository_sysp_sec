@@ -80,6 +80,8 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 	public List<Empleado> listaEmpleadosByArea(int idArea) {
 		return empleadoMapper.listaEmpleadosByArea(idArea);
 	}
+	
+	
 	@Override
 	@Transactional
 	public int insertarEmpleado(Empleado empleado) {

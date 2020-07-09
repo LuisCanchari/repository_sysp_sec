@@ -6,6 +6,7 @@ import java.sql.Date;
 //import java.util.List;
 //
 //import javax.print.attribute.standard.DateTimeAtCompleted;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,7 +50,7 @@ public class PapeletaController {
 	public String formularioPapleta(Model model) {
 
 		model.addAttribute("listadoAreas", areaService.listarAreas());
-		model.addAttribute("listadoEmpleados", empleadoService.listaEmpleadosByArea(0));
+		model.addAttribute("listadoEmpleados", empleadoService.listaEmpleadosByArea(1));
 		
 		return "papeleta_form";
 	}
@@ -95,9 +96,10 @@ public class PapeletaController {
 	}
 	@RequestMapping(value = {"/editar/{id}"}, method = RequestMethod.GET)
 	public String editarPapeleta(Model model, @PathVariable(name = "id") int id) {
+		Papeleta papeleta = papeletaService.papeletaById(id);
 		
 		model.addAttribute("listadoAreas", areaService.listarAreas());
-		model.addAttribute("listadoEmpleados", empleadoService.listaEmpleadosByArea(0));
+		model.addAttribute("listadoEmpleados", empleadoService.listaEmpleadosByArea(papeleta.getEmpleado().getArea().getIdArea()));
 		model.addAttribute("papeleta", papeletaService.papeletaById(id));
 		
 		return "papeleta_edit"; 
@@ -112,5 +114,15 @@ public class PapeletaController {
 		
 		return "redirect:/papeleta/listar";
 	}
+	
+	/*
+	@RequestMapping(value = "/refrecarEmpleados", method = RequestMethod.GET)
+	public String refreshEmpleados(@RequestParam("idArea") int idArea, Model model) {
+		
+	    List<Empleado> empleados = empleadoService.listaEmpleadosByArea(idArea);
+	    model.addAttribute("listadoEmpleados", empleados);
+
+	    return "papeleta_form :: #empleado";
+	}*/
 	
 }

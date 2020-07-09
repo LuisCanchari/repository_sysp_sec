@@ -1,6 +1,7 @@
 package edu.cientifica.papeleta.controller;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 
@@ -85,6 +87,13 @@ public class EmpleadoController {
 
 		return "redirect:/empleado/lista";
 	}
-
+	
+	@RequestMapping(value = "/listaAjax", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Empleado> listAjaxEmpleadoByArea(
+	        @RequestParam(value = "idArea", required = true) int idArea) {
+  
+	    return empleadoService.listaEmpleadosByArea(idArea);
+	}
 
 }

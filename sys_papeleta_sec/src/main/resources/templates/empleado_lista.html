@@ -19,20 +19,11 @@
 				<a href="#" th:href="@{/empleado/form}" class="btn btn-success">
 					<i class="fa fa-plus" aria-hidden="true"></i> Nuevo Empleado
 				</a>
+				
 				<form th:action="@{/empleado/lista}" method="POST" id="Search_form" class="form-horizontal">
-
-              <!-- <label for="idPageNum">Página</label>
-              <input type="number" name="pageNum" id="idPageNum" th:value="${pageInfo.pageNum}"/> -->
-
-              <!-- <label for="idPageSize">Número de Registros</label>
-              <input type="number" value="5" name="pageSize" /> -->
-
-
               <input type="hidden" name="pageNum" id="idPageNum" th:value="${pageInfo.pageNum}" />
-              <!-- <input type="submit" value="Listar" id="btnEnviar" /> -->
-
-
-            </form>
+        </form>
+        
 				<table class="table table-light">
 					<thead class="thead-light">
 						<tr>
@@ -105,19 +96,14 @@
 						</li>
 					</ul>
 				</nav>
-
 			</div>
 		</div>
-
 		<div id="pie" th:include="/layout :: pie"></div>
 </div>
    <script>
     function doSearch(pageNum) {
-
       $("#idPageNum").val(pageNum);
       $("#Search_form").submit();
-
-      //window.alert("ingreso");
     }
   </script>
 </body>

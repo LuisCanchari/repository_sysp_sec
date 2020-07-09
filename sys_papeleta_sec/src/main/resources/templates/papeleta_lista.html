@@ -44,7 +44,9 @@
 						</tr>
 						<tr th:each="papeleta: ${papeletas}">
 							<td>
-								<span th:text="${papeleta.idPapeleta}">Papeleta</span>
+							  <a th:href="@{'/papeleta/view/'+${papeleta.idPapeleta}}">
+								  <span th:text="${papeleta.idPapeleta}">Papeleta</span>
+								</a>
 							</td>
 							<td>
 								<span th:text="${papeleta.fechaInicio}+' '+${papeleta.horaInicio}">Inicio</span>
