@@ -8,6 +8,7 @@ import org.apache.ibatis.javassist.NotFoundException;
 import edu.cientifica.papeleta.model.Area;
 
 public interface AreaService {
+	public List<Area> listarAreas(Integer pageNum, Integer pageSize) throws Exception;
 	public List<Area> listarAreas() throws Exception;
 	public Area areaById(int codigo) throws Exception;
 	public int nuevoIdArea() throws Exception;;

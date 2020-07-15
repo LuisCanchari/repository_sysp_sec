@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.github.pagehelper.PageInfo;
+
 import edu.cientifica.papeleta.model.Area;
+import edu.cientifica.papeleta.model.Empleado;
 import edu.cientifica.papeleta.service.AreaService;
 
 @Controller
@@ -106,16 +109,22 @@ public class AreaController {
 		return "redirect:/area/lista";
 	}
 
-	@RequestMapping(value = { "/lista" }, method = RequestMethod.GET)
-	public String listarArea(Model model) {
+	@RequestMapping(value = { "/lista" })
+	public String listarArea(Model model,
+			@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, 
+			@RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize) {
+		
 		List<Area> listadoAreas = null;
+		PageInfo<Area> pageInfo =  null;
 
 		try {
-			listadoAreas = areaService.listarAreas();
+			listadoAreas = areaService.listarAreas(pageNum, pageSize);
+			pageInfo =  new PageInfo<Area> (listadoAreas);
+			
 		} catch (Exception e) {
 			LOG.info(e.getMessage());
 		}
-
+		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("areas", listadoAreas);
 		return "area_lista";
 	}

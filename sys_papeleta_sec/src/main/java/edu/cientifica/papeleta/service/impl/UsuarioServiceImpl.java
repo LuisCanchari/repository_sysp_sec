@@ -51,19 +51,19 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public int actualizarUsuario(Usuario usuario) {
 		// TODO Auto-generated method stub
-		usuarioMapper.actualizarUsuario(usuario);
-		return 0;
+		int result = 0;
+		result  = usuarioMapper.actualizarUsuario(usuario);
+		return result ;
 	}
 
 	@Override
 	public int changePassword(PasswordForm form) throws Exception {
-		
+		int result=0;
 		Usuario user = getLoggedUser();
-		LOG.info("user conectado:"+user.toString());
-		LOG.info("user conectado:"+form.toString());
-		
+				
 		if (!(bCryptPasswordEncoder.matches(form.getCurrentPassword(),  user.getPassword()))) {
 			throw new Exception ("Current Password invalido.");
+			
 		}
 		if( user.getPassword().equals(form.getNewPassword())) {
 			throw new Exception ("Password Nuevo debe ser diferente al password actual.");
@@ -76,8 +76,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 		String encodePassword = bCryptPasswordEncoder.encode(form.getNewPassword());
 		user.setPassword(encodePassword);
 		
-		actualizarUsuario(user);
-		return 0;
+		result = actualizarUsuario(user);
+		return result;
 		
 		//User user =  getUserById(form.getId());
 			/*	

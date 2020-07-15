@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
 import edu.cientifica.papeleta.mappers.MotivoMapper;
 import edu.cientifica.papeleta.model.Motivo;
 import edu.cientifica.papeleta.service.MotivoService;
@@ -41,8 +43,14 @@ public class MotivoServiceImpl implements MotivoService {
 	@Override
 	public List<Motivo> listarMotivos() {
 		return motivoMapper.listarMotivos();
+	}
+	
 
-		//return listaMotivos;
+	@Override
+	public List<Motivo> listarMotivos(Integer pageNum, Integer pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
+		List<Motivo> listaMotivos = motivoMapper.listarMotivos();  
+		return listaMotivos;
 	}
 
 	@Override

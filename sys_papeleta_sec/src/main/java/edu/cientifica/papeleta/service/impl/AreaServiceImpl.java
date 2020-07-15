@@ -9,6 +9,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
 import edu.cientifica.papeleta.mappers.AreaMapper;
 import edu.cientifica.papeleta.model.Area;
 import edu.cientifica.papeleta.service.AreaService;
@@ -23,7 +25,8 @@ public class AreaServiceImpl implements AreaService {
 		super();
 	}
 	@Override
-	public List<Area> listarAreas() throws Exception {
+	public List<Area> listarAreas(Integer pageNum, Integer pageSize) throws Exception {
+		PageHelper.startPage(pageNum, pageSize);
 		List<Area> listado;
 		listado = areaMapper.listaArea();
 		if (listado == null) {
@@ -31,7 +34,15 @@ public class AreaServiceImpl implements AreaService {
 		}
 		return listado;
 	}
-
+	@Override
+	public List<Area> listarAreas() throws Exception {
+		List<Area> listado;
+		listado = areaMapper.listaArea();
+		if (listado == null) {
+			throw new Exception ("No retornó datos de la base de datos");
+		}
+		return listado;	
+	}
 	@Override
 	public Area areaById(int codigo) throws Exception {
 		Area area;

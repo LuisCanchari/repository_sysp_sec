@@ -5,6 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.github.pagehelper.PageInfo;
 
 import edu.cientifica.papeleta.model.Motivo;
 import edu.cientifica.papeleta.service.MotivoService;
@@ -17,9 +20,14 @@ public class MotivoController {
 	private MotivoService motivoService;
 	
 	@RequestMapping(value="/lista")
-	public String listarMotivos(Model model)
+	public String listarMotivos(Model model,
+			@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, 
+			@RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize)
 	{	
-		model.addAttribute("motivos", motivoService.listarMotivos() );
+		PageInfo<Motivo> pageInfo = new PageInfo<Motivo>(motivoService.listarMotivos(pageNum, pageSize));
+		
+		model.addAttribute("motivos", motivoService.listarMotivos(pageNum, pageSize));
+		model.addAttribute("pageInfo",pageInfo);
 		return "motivo_listado";
 	}
 	
