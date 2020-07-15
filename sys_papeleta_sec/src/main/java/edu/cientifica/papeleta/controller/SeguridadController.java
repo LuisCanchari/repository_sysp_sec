@@ -52,6 +52,8 @@ public class SeguridadController {
 	    model.addAttribute("loginError", true);
 	    return "login.html";
 	  }
+	
+	
 
 	/*
 	 * @RequestMapping: anotacion que asocia peticiones (GET o POST) con un metodo

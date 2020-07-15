@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.cientifica.papeleta.model.Area;
 import edu.cientifica.papeleta.service.AreaService;
@@ -27,58 +28,95 @@ public class AreaController {
 
 	@RequestMapping(value = { "/form" })
 	public String formularioArea(Model model) {
-		List<Area> listadoAreas;
-		listadoAreas = areaService.listarAreas();
+		List<Area> listadoAreas = null;
+		try {
+			listadoAreas = areaService.listarAreas();
+		} catch (Exception e) {
+			LOG.info(e.getMessage());
+		}
+		if (listadoAreas != null) {
+			model.addAttribute("listadoAreas", listadoAreas);
+			model.addAttribute("area", new Area());
+			return "area_form";
+		} else {
+			return "error";
+		}
 
-		model.addAttribute("listadoAreas", listadoAreas);
-
-		model.addAttribute("area", new Area());
-		return "area_form";
 	}
 
 	@RequestMapping(value = { "/crear" }, method = RequestMethod.POST)
-	public String crearArea(@ModelAttribute Area area, BindingResult errors, Model model) {
-		// areaService.agregarArea(area);
-		areaService.insertarArea(area);
+	public String crearArea(@ModelAttribute Area area, BindingResult errors, Model model,
+			RedirectAttributes attribute) {
+		int result = 0;
 
-		model.addAttribute("areas", areaService.listarAreas());
+		try {
+			result = areaService.insertarArea(area);
+		} catch (Exception e) {
+			LOG.info(e.getMessage());
+		}
+
+		if (result != 0) {
+			attribute.addFlashAttribute("success", "Se guardó correctamente");
+		} else {
+			attribute.addFlashAttribute("error", "Problemas al guardar area");
+		}
 
 		return "redirect:/area/lista";
 	}
 
 	@RequestMapping(value = { "/editar/{id}" }, method = RequestMethod.GET)
-	public String editarArea(Model model, @PathVariable(name = "id") int id) {
-		List<Area> listadoAreas;
-		listadoAreas = areaService.listarAreas();
-		Area area = areaService.areaById(id);
-				
-		model.addAttribute("listadoAreas", listadoAreas);
-		model.addAttribute("area", area);
-
-		return "area_edit";
+	public String editarArea(Model model, @PathVariable(name = "id") int id, 
+			RedirectAttributes attribute) {
+		List<Area> listadoAreas = null;
+		Area area = null;
+		
+		try {
+			listadoAreas = areaService.listarAreas();
+			area = areaService.areaById(id);
+			
+		} catch (Exception e) {
+			LOG.info(e.getMessage());
+		}
+		
+		if (area!=null) {
+			model.addAttribute("listadoAreas", listadoAreas);
+			model.addAttribute("area", area);
+			return "area_edit";
+		}else {
+			attribute.addFlashAttribute("error", "El Área no existe");
+			return "redirect:/area/lista";
+		}
 
 	}
 
 	@RequestMapping(value = { "/actualizar" }, method = RequestMethod.POST)
-	public String actualizarArea(@ModelAttribute Area area, BindingResult errors, Model model) {
-		
-		
-		LOG.info("Datos de area");
-		LOG.info(area.toString());
-		LOG.info(area.getAreaSuperior().toString());
-		
-		areaService.actualizarArea(area);
-		
-		model.addAttribute("areas", areaService.listarAreas());
-
-		
-
+	public String actualizarArea(@ModelAttribute Area area, BindingResult errors, Model model,
+			RedirectAttributes attribute) {
+		int result = 0;
+		try {
+			result = areaService.actualizarArea(area);
+		} catch (Exception e) {
+			LOG.info(e.getMessage());
+		}
+		if (result != 0) {
+			attribute.addFlashAttribute("success", "Se guardó correctamente");
+		} else {
+			attribute.addFlashAttribute("error", "Problemas al actualizar area");
+		}
 		return "redirect:/area/lista";
 	}
 
 	@RequestMapping(value = { "/lista" }, method = RequestMethod.GET)
 	public String listarArea(Model model) {
-		model.addAttribute("areas", areaService.listarAreas());
+		List<Area> listadoAreas = null;
+
+		try {
+			listadoAreas = areaService.listarAreas();
+		} catch (Exception e) {
+			LOG.info(e.getMessage());
+		}
+
+		model.addAttribute("areas", listadoAreas);
 		return "area_lista";
 	}
 }

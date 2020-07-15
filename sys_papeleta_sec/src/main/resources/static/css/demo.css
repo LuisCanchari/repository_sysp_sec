@@ -64,7 +64,7 @@ body {
 #infotitulo {
     width: 75%;
     text-align: center;
-    font-size: 1.7em;
+    font-size: 1.5em;
     font-weight: bold;
     font-stretch: ultra-expanded;
     background-color: #0B610B;
@@ -73,6 +73,14 @@ body {
     align-items: center;
     /* display: inline-block; */
     /*float: left;*/
+}
+
+#mensajes {
+    width: 100%;
+    text-align: center;
+    font-size: 1em;
+     
+    
 }
 
 #pie {

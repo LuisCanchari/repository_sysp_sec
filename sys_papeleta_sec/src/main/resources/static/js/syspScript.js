@@ -2,7 +2,7 @@ $(document).ready(function() {
 	
     $('#area').click(function(e) {
         e.preventDefault();
-        alert("mensaje");
+       // alert("mensaje");
         // var idArea = $('select[id=area]').val();
         // alert("area: " + idArea);
     });

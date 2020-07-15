@@ -71,4 +71,13 @@
   Where u.login_name = #{username}
 </select>
 
+<update id="actualizarUsuario" parameterType="edu.cientifica.papeleta.model.Usuario">
+  UPDATE Usuario
+    SET
+    login_name = #{username},
+    password = #{password},
+    id_empleado = #{idPersona}  
+  WHERE id_usuario = #{idUsuario}
+</update>
+
 </mapper>

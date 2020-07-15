@@ -39,7 +39,15 @@ public class EmpleadoController {
 
 	@RequestMapping(value = { "/form" }, method = RequestMethod.GET)
 	public String formularioEmpleado(Model model) {
-		model.addAttribute("listadoAreas", areaService.listarAreas());
+		List <Area> listadoArea = null;
+		try {
+			listadoArea = areaService.listarAreas();
+			
+		} catch (Exception e) {
+			LOG.info(e.getMessage());
+		}
+		
+		model.addAttribute("listadoAreas", listadoArea);
 		model.addAttribute("empleado", new Empleado());
 		return "empleado_form";
 	}
@@ -59,9 +67,17 @@ public class EmpleadoController {
 	
 	@GetMapping("/editar/{id}")
 	public String editarEmpleado(Model model, @PathVariable(name = "id") int id) {
+		List <Area> listadoArea = null;
+		Empleado empleado = null;
 		
-		model.addAttribute("empleado", empleadoService.empleadoById(id));
-		model.addAttribute("areas", areaService.listarAreas());
+		try {
+			listadoArea = areaService.listarAreas();
+			empleado = empleadoService.empleadoById(id);
+		} catch (Exception e) {
+			LOG.info(e.getMessage());
+		}
+		model.addAttribute("empleado", empleado);
+		model.addAttribute("areas", listadoArea);
 		
 		return "empleado_edit";
 	}

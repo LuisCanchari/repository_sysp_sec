@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<div th:replace="/layout :: header"></div>
+<title>Usuario</title>
+</head>
+
+<body>
+	<div id="contenedor">
+		<div id="cabecera" th:include="/layout :: cabecera"></div>
+
+		<div id="filainfo" th:include="/layout :: filainfo"></div>
+
+		<div class="fila">
+			<div class="menu" th:include="/layout :: menu"></div>
+			<div class="main">
+			
+			</div>
+			<!-- Fin Main -->
+		</div>
+		<!-- Fin Fila -->
+		<div id="pie">© copyright Universidad Cientifica del Sur</div>
+	</div>
+	<!-- Fin Contenedor -->
+	<div th:include="/usuario/change-password.html" th:remove="tag"></div>
+	</body>
+</html>

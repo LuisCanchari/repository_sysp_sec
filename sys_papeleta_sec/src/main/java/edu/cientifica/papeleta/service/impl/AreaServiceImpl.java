@@ -1,5 +1,6 @@
 package edu.cientifica.papeleta.service.impl;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,79 +12,70 @@ import org.springframework.stereotype.Service;
 import edu.cientifica.papeleta.mappers.AreaMapper;
 import edu.cientifica.papeleta.model.Area;
 import edu.cientifica.papeleta.service.AreaService;
+import net.sf.jsqlparser.expression.operators.relational.IsNullExpression;
 
 @Service
 public class AreaServiceImpl implements AreaService {
-	
 	protected final Log LOG = LogFactory.getLog(this.getClass());
-	private List<Area> listadoAreas;
-	@Autowired AreaMapper areaMapper;
-	
-	
 
+	@Autowired AreaMapper areaMapper;
 	public AreaServiceImpl() {
 		super();
-		listadoAreas = new ArrayList<Area>();
-		listadoAreas.add(new Area(1, "GG", "Gerencia General", null));
-		listadoAreas.add(new Area(2, "ADM", "Administracion", null));
-		listadoAreas.add(new Area(3, "UCONT", "Unidad de Contabilidad", null));
-		listadoAreas.add(new Area(4, "ULOG", "Unidad de Logistica", null));
-		listadoAreas.add(new Area(5, "UTES", "Unidad de Tesorería", null));
-		listadoAreas.add(new Area(6, "ALM", "Unidad de Almacen", null));
 	}
-
 	@Override
-	public List<Area> listarAreas() {
-		LOG.info("Inicia la extraccion del listado de la bd");
-		List<Area> listado = new ArrayList<Area>();
+	public List<Area> listarAreas() throws Exception {
+		List<Area> listado;
 		listado = areaMapper.listaArea();
-		
-		for (Area area : listado) {
-			LOG.info(area.toString());
+		if (listado == null) {
+			throw new Exception ("No retornó datos de la base de datos");
 		}
-		
 		return listado;
 	}
 
 	@Override
-	public Area areaById(int codigo) {
-		return areaMapper.areaById(codigo);
-		
+	public Area areaById(int codigo) throws Exception {
+		Area area;
+		area = areaMapper.areaById(codigo);
+		if (area == null) {
+			throw new Exception ("No retornó datos de la base de datos");
+		}
+		return area;
 	}
 
 	@Override
-	public int agregarArea(Area area) {
-		listadoAreas.add(area);
-		return 0;
+	public int nuevoIdArea() throws Exception {
+		int nuevoId;
+		nuevoId = areaMapper.nuevoIdArea();
+		if (nuevoId == 0) {
+			throw new Exception ("No retornó datos de la base de datos");
+		}
+		return nuevoId;
 	}
 
 	@Override
-	public int nuevoIdArea() {
-		
-		return areaMapper.nuevoIdArea();
-	}
-
-	@Override
-	public int insertarArea(Area area) {
+	public int insertarArea(Area area) throws Exception {
+		int result = 0;
 		if (area.getAreaSuperior().getIdArea()==0){
 			area.setAreaSuperior(null);
 		}
-		area.setIdArea(areaMapper.nuevoIdArea());
-		
-		areaMapper.insertarArea(area);
-		return 0;
+		area.setIdArea(nuevoIdArea());
+		result = areaMapper.insertarArea(area);
+		if (result==0) {
+			throw new Exception ("No se insertó el area");
+		}
+		return result;
 	}
 
 	@Override
-	public int actualizarArea(Area area) {
+	public int actualizarArea(Area area) throws Exception {
+		int result = 0; 
 		if (area.getAreaSuperior().getIdArea()==0){
 			area.setAreaSuperior(null);
 		}
-		areaMapper.actualizarArea(area);
-		// TODO Auto-generated method stub
-		return 0;
+		result = areaMapper.actualizarArea(area);
+		if (result==0) {
+			throw new Exception ("No se actualizó el area");
+		}
+		return result;
 	}
-	
-	
-
 }

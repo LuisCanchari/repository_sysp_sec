@@ -1,22 +1,37 @@
 package edu.cientifica.papeleta.service.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
+
+import edu.cientifica.papeleta.dto.PasswordForm;
 import edu.cientifica.papeleta.mappers.UsuarioMapper;
 import edu.cientifica.papeleta.model.Usuario;
 import edu.cientifica.papeleta.service.UsuarioService;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
+	protected final Log LOG = LogFactory.getLog(this.getClass());
+	
 	private List<Usuario> listaUsuarios;
+	
 	@Autowired
 	private UsuarioMapper usuarioMapper;
+	
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
 
+	
 	public UsuarioServiceImpl() {
 		super();
 		listaUsuarios = new ArrayList<Usuario>();
@@ -28,10 +43,121 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public List<Usuario> listarUsuarios() {
 		return usuarioMapper.listarUsuarios();
-		// TODO Auto-generated method stub
-		//return listaUsuarios;
+
 	}
 
+
+	
+	@Override
+	public int actualizarUsuario(Usuario usuario) {
+		// TODO Auto-generated method stub
+		usuarioMapper.actualizarUsuario(usuario);
+		return 0;
+	}
+
+	@Override
+	public int changePassword(PasswordForm form) throws Exception {
+		
+		Usuario user = getLoggedUser();
+		LOG.info("user conectado:"+user.toString());
+		LOG.info("user conectado:"+form.toString());
+		
+		if (!(bCryptPasswordEncoder.matches(form.getCurrentPassword(),  user.getPassword()))) {
+			throw new Exception ("Current Password invalido.");
+		}
+		if( user.getPassword().equals(form.getNewPassword())) {
+			throw new Exception ("Password Nuevo debe ser diferente al password actual.");
+		}
+		
+		if( !form.getNewPassword().equals(form.getConfirmPassword())) {
+			throw new Exception ("Nuevo Password y Confirm Password no coinciden.");
+		}
+		
+		String encodePassword = bCryptPasswordEncoder.encode(form.getNewPassword());
+		user.setPassword(encodePassword);
+		
+		actualizarUsuario(user);
+		return 0;
+		
+		//User user =  getUserById(form.getId());
+			/*	
+		if ( !isLoggedUserADMIN() && !user.getPassword().equals(form.getCurrentPassword())) {
+			throw new Exception ("Current Password invalido.");
+		}
+		
+		if( user.getPassword().equals(form.getNewPassword())) {
+			throw new Exception ("Nuevo debe ser diferente al password actual.");
+		}
+		
+		if( !form.getNewPassword().equals(form.getConfirmPassword())) {
+			throw new Exception ("Nuevo Password y Confirm Password no coinciden.");
+		}
+		
+		String encodePassword = bCryptPasswordEncoder.encode(form.getNewPassword());
+		user.setPassword(encodePassword);
+		return repository.save(user);*/
+	}
+	
+	/**Metodos Privados **/
+	
+	private boolean checkUsernameAvailable(Usuario user) throws Exception {
+		Optional<Usuario> userFound = Optional.ofNullable(usuarioMapper.findUsername(user.getUsername()));
+		if (userFound.isPresent()) {
+			throw new Exception ("Username no disponible");
+		}
+		return true;
+	}
+	
+	private boolean checkPasswordValid(Usuario user) throws Exception {
+		/*
+		 * if (user.getConfirmPassword() == null || user.getConfirmPassword().isEmpty())
+		 * { throw new Exception("Confirm Password es obligatorio"); }
+		 * 
+		 * if ( !user.getPassword().equals(user.getConfirmPassword())) { throw new
+		 * Exception("Password y Confirm Password no son iguales"); }
+		 */
+		return true;
+	}
+	
+	
+	
+	private boolean isLoggedUserADMIN() {
+		//Obtener el usuario logeado
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		UserDetails loggedUser = null;
+		Object roles = null;
+
+		//Verificar que ese objeto traido de sesion es el usuario
+		if (principal instanceof UserDetails) {
+			loggedUser = (UserDetails) principal;
+
+			roles = loggedUser.getAuthorities().stream()
+					.filter(x -> "ROLE_ADMIN".equals(x.getAuthority())).findFirst()
+					.orElse(null); 
+		}
+		return roles != null ? true : false;
+	}
+	
+	private Usuario getLoggedUser() throws Exception {
+		//Obtener el usuario logeado
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		UserDetails loggedUser = null;
+
+		//Verificar que ese objeto traido de sesion es el usuario
+		if (principal instanceof UserDetails) {
+			loggedUser = (UserDetails) principal;
+		}
+		
+		Usuario myUser = usuarioMapper.findUsername(loggedUser.getUsername());
+		
+		return myUser;
+	}
+	
+	
+	/***Operacione con listas*/
+	
 	@Override
 	public Usuario buscarUsuario(String username) {
 
@@ -54,4 +180,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 		}		
 		return false;
 	}
+	
+	
 }

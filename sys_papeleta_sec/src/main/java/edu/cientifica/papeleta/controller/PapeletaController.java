@@ -48,9 +48,19 @@ public class PapeletaController {
 	/* Presenta el formulario de papeleta*/
 	@RequestMapping(value = { "/form" }, method = RequestMethod.GET)
 	public String formularioPapleta(Model model) {
-
-		model.addAttribute("listadoAreas", areaService.listarAreas());
-		model.addAttribute("listadoEmpleados", empleadoService.listaEmpleadosByArea(1));
+		List<Area> listadoArea  = null;
+		List<Empleado> listadoEmpleado = null;
+		
+		try {
+			listadoArea=areaService.listarAreas();
+			listadoEmpleado = empleadoService.listaEmpleadosByArea(1);
+			
+		} catch (Exception e) {
+			LOG.info(e.getMessage());
+		}
+		
+		model.addAttribute("listadoAreas", listadoArea);
+		model.addAttribute("listadoEmpleados", listadoEmpleado);
 		
 		return "papeleta_form";
 	}
@@ -65,25 +75,23 @@ public class PapeletaController {
 		
 		Papeleta papeleta = new Papeleta();
 		
-		Empleado empleado = empleadoService.empleadoById(idEmpleado);
-		Area area = areaService.areaById(idArea);
-		Motivo motivo  =  motivoService.motivoById(idMotivo);
+		try {
+			Empleado empleado = empleadoService.empleadoById(idEmpleado);
+			Area area = areaService.areaById(idArea);
+			Motivo motivo  =  motivoService.motivoById(idMotivo);
 
-		papeleta.setIdPapeleta(papeletaService.nuevoIdPapeleta());
-		papeleta.setEmpleado(empleado);
-		papeleta.setMotivo(motivo);
-		papeleta.setFechaInicio(fechaInicio);
-		papeleta.setHoraInicio(horaInicio);
-		papeleta.setFechaFin(fechaFin);
-		papeleta.setHoraFin(horaFin);
-		papeleta.setObservacion(observacion);
-		
-		
-		//SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
-		//String dateInString = "7-Jun-2013";
-		//papeleta.setFechafin(d.of(year, month, dayOfMonth));
-		
-		papeletaService.insertarPapeleta(papeleta);
+			papeleta.setIdPapeleta(papeletaService.nuevoIdPapeleta());
+			papeleta.setEmpleado(empleado);
+			papeleta.setMotivo(motivo);
+			papeleta.setFechaInicio(fechaInicio);
+			papeleta.setHoraInicio(horaInicio);
+			papeleta.setFechaFin(fechaFin);
+			papeleta.setHoraFin(horaFin);
+			papeleta.setObservacion(observacion);
+			papeletaService.insertarPapeleta(papeleta);
+		} catch (Exception e) {
+			LOG.info(e.getMessage());
+		}
 		
 		return "redirect:/papeleta/listar";
 	}
@@ -96,10 +104,20 @@ public class PapeletaController {
 	}
 	@RequestMapping(value = {"/editar/{id}"}, method = RequestMethod.GET)
 	public String editarPapeleta(Model model, @PathVariable(name = "id") int id) {
-		Papeleta papeleta = papeletaService.papeletaById(id);
+		List<Area> listadoArea  = null;
+		List<Empleado> listadoEmpleado = null;
 		
-		model.addAttribute("listadoAreas", areaService.listarAreas());
-		model.addAttribute("listadoEmpleados", empleadoService.listaEmpleadosByArea(papeleta.getEmpleado().getArea().getIdArea()));
+		try {
+			Papeleta papeleta = papeletaService.papeletaById(id);
+			listadoArea  = areaService.listarAreas();
+			listadoEmpleado = empleadoService.listaEmpleadosByArea(papeleta.getEmpleado().getArea().getIdArea());
+			
+		} catch (Exception e) {
+			LOG.info(e.getMessage());
+		}
+		
+		model.addAttribute("listadoAreas", listadoArea );
+		model.addAttribute("listadoEmpleados", listadoEmpleado);
 		model.addAttribute("papeleta", papeletaService.papeletaById(id));
 		
 		return "papeleta_edit"; 
@@ -108,21 +126,9 @@ public class PapeletaController {
 	@RequestMapping(value = { "/actualizar" }, method = RequestMethod.POST)
 	public String actualizarPapeleta(@ModelAttribute Papeleta papeleta){
 		
-		
 		LOG.info("Datos de Papeleta" + papeleta.toString());
 		papeletaService.actualizarPapeleta(papeleta);
 		
 		return "redirect:/papeleta/listar";
 	}
-	
-	/*
-	@RequestMapping(value = "/refrecarEmpleados", method = RequestMethod.GET)
-	public String refreshEmpleados(@RequestParam("idArea") int idArea, Model model) {
-		
-	    List<Empleado> empleados = empleadoService.listaEmpleadosByArea(idArea);
-	    model.addAttribute("listadoEmpleados", empleados);
-
-	    return "papeleta_form :: #empleado";
-	}*/
-	
 }

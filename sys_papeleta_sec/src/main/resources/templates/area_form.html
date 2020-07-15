@@ -12,11 +12,14 @@
 		<div id="cabecera" th:include="/layout :: cabecera"></div>
 
 		<div id="filainfo" th:include="/layout :: filainfo"></div>
-
+		
+		<div id="mensajes" th:include="/layout :: mensajes"></div>
+		
 		<div class="fila">
 			<div class="menu" th:include="/layout :: menu"></div>
 
 			<div class="main">
+			 
 				<form th:action="@{/area/crear}" action="/area/crear" method="POST" th:object="${area}" class="form">
 					<div class="container">
 						<div class="row">
