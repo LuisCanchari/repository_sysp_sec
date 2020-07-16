@@ -128,4 +128,21 @@ public class AreaController {
 		model.addAttribute("areas", listadoAreas);
 		return "area_lista";
 	}
+	@RequestMapping(value = "/eliminar/{id}")
+	public String eliminarArea(Model model, @PathVariable(name = "id") int id, 
+			RedirectAttributes attribute) {
+		Area area;
+		int result = 0;
+		try {
+			area = areaService.areaById(id);
+			result= areaService.eliminarArea(area);
+		} catch (Exception e) {
+			LOG.info("error:"+e.getMessage());
+		}
+		if(result!=0) {
+			return "";
+		} else {
+			return null;
+		}
+	}
 }

@@ -73,6 +73,6 @@ public class UsuarioController {
 			} else {
 				attribute.addFlashAttribute("error", "No se modificó el password");
 			}
-			return "redirect:/usuario_cambiar_password";
+			return "usuario_cambiar_password";
 	}
 }

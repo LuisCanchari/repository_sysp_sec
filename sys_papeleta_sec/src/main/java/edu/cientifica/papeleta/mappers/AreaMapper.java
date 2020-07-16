@@ -19,4 +19,5 @@ public interface AreaMapper {
 	public int nuevoIdArea() throws SQLException;
 	public int insertarArea(Area area)  throws SQLException;
 	public int actualizarArea(Area area) throws SQLException;
+	public int eliminarArea(Area area) throws SQLException;
 }

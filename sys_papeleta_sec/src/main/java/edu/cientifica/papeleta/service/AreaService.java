@@ -12,7 +12,8 @@ public interface AreaService {
 	public List<Area> listarAreas() throws Exception;
 	public Area areaById(int codigo) throws Exception;
 	public int nuevoIdArea() throws Exception;;
-	public int insertarArea(Area area) throws Exception;;
-	public int actualizarArea(Area area) throws Exception;;
+	public int insertarArea(Area area) throws Exception;
+	public int actualizarArea(Area area) throws Exception;
+	public int eliminarArea(Area area) throws Exception;
 	
 }

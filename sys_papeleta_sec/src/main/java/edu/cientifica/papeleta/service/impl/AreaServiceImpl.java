@@ -89,4 +89,14 @@ public class AreaServiceImpl implements AreaService {
 		}
 		return result;
 	}
+	
+	@Override
+	public int eliminarArea(Area area) throws Exception {
+		
+		
+		return 0;
+	}
+	
+	
+	
 }

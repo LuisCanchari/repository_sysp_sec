@@ -65,9 +65,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 			throw new Exception ("Current Password invalido.");
 			
 		}
-		if( user.getPassword().equals(form.getNewPassword())) {
-			throw new Exception ("Password Nuevo debe ser diferente al password actual.");
-		}
+	
 		
 		if( !form.getNewPassword().equals(form.getConfirmPassword())) {
 			throw new Exception ("Nuevo Password y Confirm Password no coinciden.");
@@ -79,23 +77,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		result = actualizarUsuario(user);
 		return result;
 		
-		//User user =  getUserById(form.getId());
-			/*	
-		if ( !isLoggedUserADMIN() && !user.getPassword().equals(form.getCurrentPassword())) {
-			throw new Exception ("Current Password invalido.");
-		}
 		
-		if( user.getPassword().equals(form.getNewPassword())) {
-			throw new Exception ("Nuevo debe ser diferente al password actual.");
-		}
-		
-		if( !form.getNewPassword().equals(form.getConfirmPassword())) {
-			throw new Exception ("Nuevo Password y Confirm Password no coinciden.");
-		}
-		
-		String encodePassword = bCryptPasswordEncoder.encode(form.getNewPassword());
-		user.setPassword(encodePassword);
-		return repository.save(user);*/
 	}
 	
 	/**Metodos Privados **/
